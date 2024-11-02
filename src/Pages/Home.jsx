@@ -93,7 +93,7 @@ let Home = () => {
           </Box>
           
         </Box>
-        <Box sx={{position:"absolute", left:"0%", top:{xs:"50%", md:"55%"}, display:"flex", flexDirection:{xs:"column", sm:"row"}, justifyContent:"space-around" ,width:"50%", minWidth:"350px", gap:"2rem", background:"rgba(0,0,0,0.5)", padding:"1rem" }}>
+        <Box sx={{position:"absolute", left:"0%", top:{xs:"50%", md:"55%"}, display:"flex", flexDirection:{xs:"column", sm:"row"}, justifyContent:"space-around" ,width:"50%", minWidth:"350px", gap:"1rem", background:"rgba(0,0,0,0.5)", padding:"1rem" }}>
 
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
