@@ -54,6 +54,8 @@ let Header = () => {
               if (refreshed) {
                 setAccessToken(keycloak.token); // Update state with the new token
                 console.log("Token refreshed", keycloak.token);
+                console.log(accessToken);
+                console.log(refreshToken);
               }
             } catch (error) {
               console.error("Failed to refresh token", error);
