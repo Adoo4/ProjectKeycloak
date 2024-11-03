@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
-
+import { Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 
@@ -12,6 +12,7 @@ let Home = () => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     let [counter, setCounter] = useState(0)
+    let [counter2, setCounter2] = useState(0)
     useEffect(() => {
         const timer = setTimeout(() => {
           setShow(true);
@@ -42,6 +43,20 @@ let Home = () => {
     
         return () => clearInterval(count); // Cleanup on component unmount
     }, []);
+
+    useEffect(() => {
+      const count = setInterval(() => {
+          setCounter2((prev) => {
+              if (prev >= 16) {
+                  clearInterval(count);
+                  return prev; // Stop incrementing when 50,000 is reached
+              }
+              return prev + 1;
+          });
+      }, 100); // 0.1 second delay
+  
+      return () => clearInterval(count); // Cleanup on component unmount
+  }, []);
 
 
     return(
@@ -93,18 +108,20 @@ let Home = () => {
           </Box>
           
         </Box>
-        <Box sx={{position:"absolute", left:"0%", top:{xs:"50%", md:"55%"}, display:"flex", flexDirection:{xs:"column", sm:"row"}, justifyContent:"space-around" ,width:"50%", minWidth:"350px", gap:"1rem", background:"rgba(0,0,0,0.5)", padding:"1rem" }}>
+        <Box sx={{position:"absolute", left:"0%", top:{xs:"50%", md:"55%"},  transform: {xs:'translateY(-10%)', md: 'translateY(-10%)'} ,display:"flex", flexDirection:{xs:"row", sm:"row"}, justifyContent:"space-around" ,width:"50%", minWidth:"350px", gap:"1rem",  backgroundColor: show2 ? 'orange' : 'rgba(255, 255, 255,0.1)',    transition: 'background-color 4s ease' ,padding:"1rem" }}>
 
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
-            <Typography sx={{color:"white", fontSize:{xs:"3rem", md:"4rem", lg:"5rem"}, fontWeight:"bold", color:"orange"}}>+{counter}</Typography>
-            <Typography sx={{color:"white", fontSize:"1rem", }}>EVENTS</Typography>
+            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"5rem"}, fontWeight:"bold", color:"black"}}>+{counter}</Typography>
+       
+            <Typography sx={{color:"black", fontSize:"0.85rem", fontWeight:"bold" }}>EVENTS</Typography>
             </Box>
-
+            <Divider orientation="vertical" flexItem sx={{ mx: 2, border:"1px solid black" }}/>
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
-            <Typography sx={{color:"white", fontSize:{xs:"3rem", md:"4rem", lg:"5rem"}, fontWeight:"bold",  color:"orange"}}>+1Milion</Typography>
-            <Typography sx={{color:"white", fontSize:"1rem"}}>RESERVARTIONS</Typography>
+            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"5rem"}, fontWeight:"bold",  color:"black"}}>{`+${counter2}Milion`}</Typography>
+          
+            <Typography sx={{color:"black", fontSize:"0.85rem", fontWeight:"bold"}}>RESERVATIONS</Typography>
             </Box>
        
         </Box>
