@@ -1,0 +1,9 @@
+[build]
+  publish = "build"
+  command = "npm run build"
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://avajava.pro:8880/:splat"
+  status = 200
+  force = true
