@@ -96,9 +96,9 @@ let Header = () => {
       <Toolbar sx={{ gap: {xs:"0.8rem", sm:"1rem"}, display: "flex", justifyContent: "space-between" }}>
         {/* Navigation Buttons */}
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, justifyContent: 'flex-start', alignItems:"center" ,gap: {xs:"0.8rem", sm:"1rem"}, fontSize: "3rem" }}>
-          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight:"bold", '&:hover': {color: 'orange'}, }} onClick={()=>navigate("/")}>HOME</Button>
-          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight:"bold", '&:hover': {color: 'orange'} }} onClick={()=>navigate("/events")}>EVENTS</Button>
-          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight:"bold", '&:hover': {color: 'orange'} }}>ABOUT</Button>
+          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, '&:hover': {color: 'orange'}, }} onClick={()=>navigate("/")}>HOME</Button>
+          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" },  '&:hover': {color: 'orange'} }} onClick={()=>navigate("/events")}>EVENTS</Button>
+          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" },  '&:hover': {color: 'orange'} }}>ABOUT</Button>
         </Box>
 
         {/* Authentication Button */}
