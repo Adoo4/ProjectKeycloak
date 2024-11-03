@@ -108,7 +108,7 @@ let Home = () => {
           </Box>
           
         </Box>
-        <Box sx={{position:"absolute", left:"0%", top:{xs:"50%", md:"55%"},  transform: {xs:'translateY(-10%)', md: 'translateY(-10%)'} ,display:"flex", flexDirection:{xs:"row", sm:"row"}, justifyContent:"space-around" ,width:"50%", minWidth:"350px", gap:"1rem",  backgroundColor: show2 ? 'orange' : 'rgba(255, 255, 255,0.1)',    transition: 'background-color 4s ease' ,padding:"1rem" }}>
+        <Box sx={{position:"absolute", left:"0%", top:{xs:"50%", md:"55%"},  transform: {xs:'translateY(-10%)', md: 'translateY(-10%)'} ,display:"flex", flexDirection:{xs:"row", sm:"row"}, justifyContent:"space-around" ,width:"50%", minWidth:"350px", gap:"1rem",  backgroundColor:  'orange' ,padding:"1rem" }}>
 
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
