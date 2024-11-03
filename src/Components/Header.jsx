@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import keycloak from './keycloak'
 import { useNavigate } from 'react-router-dom';
 
+import KeyIcon from '@mui/icons-material/Key';
+import KeyOffIcon from '@mui/icons-material/KeyOff';
 
 
 
@@ -90,26 +92,35 @@ let Header = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ backgroundColor: scrolled ? 'black' :'transparent'  , transition: 'background-color 0.3s ease' }} elevation={0} >
-      <Toolbar sx={{ gap: '1rem', display: "flex", justifyContent: "space-between" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: scrolled ? 'rgba(0,0,0,0.5)' :'transparent'  , transition: 'background-color 0.3s ease' }} elevation={0} >
+      <Toolbar sx={{ gap: {xs:"0.8rem", sm:"1rem"}, display: "flex", justifyContent: "space-between" }}>
         {/* Navigation Buttons */}
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, justifyContent: 'flex-start', alignItems:"center" ,gap: '1rem', fontSize: "3rem" }}>
-          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }} onClick={()=>navigate("/")}>HOME</Button>
-          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }} onClick={()=>navigate("/events")}>EVENTS</Button>
-          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}>ABOUT</Button>
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, justifyContent: 'flex-start', alignItems:"center" ,gap: {xs:"0.8rem", sm:"1rem"}, fontSize: "3rem" }}>
+          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight:"bold", '&:hover': {color: 'orange'}, }} onClick={()=>navigate("/")}>HOME</Button>
+          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight:"bold", '&:hover': {color: 'orange'} }} onClick={()=>navigate("/events")}>EVENTS</Button>
+          <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight:"bold", '&:hover': {color: 'orange'} }}>ABOUT</Button>
         </Box>
 
         {/* Authentication Button */}
+
+        <Box>
+
+        <PersonIcon fontSize="large" sx={{ color: 'white', background: "transparent", border:"2px solid white" ,borderRadius: "50%", padding: "0.2rem", display:{xs:"none", sm:"flex"} }} />
+        </Box>
+
+
         <Box sx={{ display: "flex" }}>
           {!isAuthenticated ? (
-            <Button color="default" sx={{ display: "flex", gap: "1rem", justifyContent: "center", alignItems: "center" }} onClick={() => keycloak.login()}>
-              <PersonIcon fontSize="large" sx={{ color: 'white', background: "transparent", border:"2px solid white" ,borderRadius: "50%", padding: "0.2rem" }} />
-              <Typography sx={{ display: { xs: "none", sm: "flex" } }}>LOGIN</Typography>
+            <Button color="outlined" sx={{ display: "flex", border:"2px solid white" ,padding:{sm:"0.25rem  1.25rem", xs:"0.25rem 1rem"}, borderRadius:"3rem" ,gap: "1rem", justifyContent: "center", alignItems: "center", '&:hover': {color: 'orange', border:"2px solid orange"} }} onClick={() => keycloak.login()}>
+              <KeyIcon/>
+              <Typography sx={{ display: { xs: "none", sm: "flex" }, fontSize:"0.8rem" }}>LOGIN</Typography>
+              
             </Button>
           ) : (
-            <Button color="default" sx={{ display: "flex", gap: "1rem", justifyContent: "center", alignItems: "center" }} onClick={handleLogout}>
-              <PersonIcon fontSize="large" sx={{ color: 'orange', background: "transparent", border:"2px solid orange" ,borderRadius: "50%", padding: "0.2rem" }} />
-              <Typography sx={{ display: { xs: "none", sm: "flex", color:"orange" } }}>LOGOUT</Typography>
+            <Button color="outlined" sx={{ display: "flex", border:"2px solid white" ,padding:"0.25rem  1.25rem", borderRadius:"3rem" ,gap: "1rem", justifyContent: "center", alignItems: "center", '&:hover': {color: 'orange', border:"2px solid orange"} }} onClick={handleLogout}>
+              <KeyOffIcon/>
+              <Typography sx={{ display: { xs: "none", sm: "flex", color:"orange" },fontSize:"0.8rem"  }}>LOGOUT</Typography>
+             
             </Button>
           )}
         </Box>

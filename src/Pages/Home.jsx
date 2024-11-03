@@ -112,14 +112,14 @@ let Home = () => {
 
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
-            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"5rem"}, fontWeight:"bold", color:"black"}}>+{counter}</Typography>
+            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"4rem"}, fontWeight:"bold", color:"black"}}>+{counter}</Typography>
        
             <Typography sx={{color:"black", fontSize:"0.85rem", fontWeight:"bold" }}>EVENTS</Typography>
             </Box>
-            <Divider orientation="vertical" flexItem sx={{ mx: 2, border:"1px solid black" }}/>
+            <Divider orientation="vertical" flexItem sx={{ mx: 2,  transition: 'border 4s ease', border: show2 ? "1px solid black" : "1px solid transparent" }}/>
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
-            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"5rem"}, fontWeight:"bold",  color:"black"}}>{`+${counter2}Milion`}</Typography>
+            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"4rem"}, fontWeight:"bold",  color:"black"}}>{`+${counter2}Milion`}</Typography>
           
             <Typography sx={{color:"black", fontSize:"0.85rem", fontWeight:"bold"}}>RESERVATIONS</Typography>
             </Box>
