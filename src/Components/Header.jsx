@@ -105,7 +105,7 @@ let Header = () => {
 
         <Box>
 
-        <PersonIcon fontSize="large" sx={{ color: 'white', background: "transparent", border:"2px solid white" ,borderRadius: "50%", padding: "0.2rem", display:{xs:"none", sm:"flex"} }} />
+       {isAuthenticated?  <PersonIcon fontSize="large" sx={{ color: 'white', background: "transparent", border:"2px solid white" ,borderRadius: "50%", padding: "0.2rem", display:{xs:"none", sm:"flex"} }} /> : null}
         </Box>
 
 
