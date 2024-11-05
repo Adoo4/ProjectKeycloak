@@ -100,20 +100,20 @@ return(
     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
       {events.map((e, index) => (
         <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{padding:"1rem"}}>
-           <Card sx={{ minWidth: 280, display:"flex", flexDirection:"column", alignItems:"stretch", minHeight:"400px" }}>
+           <Card sx={{ minWidth: 280, display:"flex", flexDirection:"column", justifyContent:"space-between", minHeight:"450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;" }}>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="200"
-                image={e.eventImage}
+                height="250"
+                image="https://i.postimg.cc/PJvzwLbv/1730755372.jpg"
                 alt="Event card"
               />
                <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
                   {e.eventTitle}
                 </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <LocationOnIcon />
+                <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                  <LocationOnIcon sx={{fontSize:20}}/>
                   <Typography variant="h7" component="div">
                     {e.eventLocation}
                   </Typography>
@@ -125,7 +125,7 @@ return(
             </CardActionArea>
             <CardActions>
               <Button size="small" color="primary">
-                Share
+                DETAILS
               </Button>
             </CardActions>
           </Card>
