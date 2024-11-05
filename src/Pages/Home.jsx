@@ -33,11 +33,11 @@ let Home = () => {
       useEffect(() => {
         const count = setInterval(() => {
             setCounter((prev) => {
-                if (prev >= 50000) {
+                if (prev >= 51238) {
                     clearInterval(count);
                     return prev; // Stop incrementing when 50,000 is reached
                 }
-                return prev + 100;
+                return prev + 231;
             });
         }, 1); // 0.1 second delay
     
@@ -112,7 +112,7 @@ let Home = () => {
 
             <Box sx={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 
-            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"4rem"}, fontWeight:"bold", color:"black"}}>+{counter}</Typography>
+            <Typography sx={{color:"white", fontSize:{xs:"2rem", md:"4rem", lg:"4rem"}, fontWeight:"bold", color:"black"}}>{counter}</Typography>
        
             <Typography sx={{color:"black", fontSize:"0.85rem", fontWeight:"bold" }}>EVENTS</Typography>
             </Box>

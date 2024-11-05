@@ -41,13 +41,16 @@ let Header = () => {
     let authenticate = async () => {
       try {
         let authenticated = await keycloak.init({
-          pkceMethod: "S256",
+          pkceMethod: "S256",  enableLogging: true, // Enable logging
+          logLevel: 'debug', // Set log level to debug
           
         });
 
         if (authenticated) {
           setIsAuthenticated(true);
           setAccessToken(keycloak.token);
+          console.log(keycloak.token)
+          console.log(keycloak.refreshToken);
           setRefreshToken(keycloak.refreshToken);
 
           let intervalId = setInterval(async () => {
