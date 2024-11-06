@@ -84,7 +84,7 @@ function App() {
   return (
     <div className="App">
       {loading ? (
-        <Box  style={{
+        <Box  sx={{
           position: "fixed",
           top: "50%",
           left: "50%",
@@ -92,10 +92,17 @@ function App() {
           fontSize: "1.5rem",
           color: "#333",
           display:"flex",
+          flexDirection:"column",
           justifyContent:"center",
-          alignItems:"center"
+          alignItems:"center",
+          gap:"1rem",
+        
+         
+          
           /* Add animations or custom styles here */
-        }}><CircularProgressWithLabel sx={{color:"orange"}}value={progress} /></Box> // Replace with your custom loader component or styling
+        }}> <CircularProgressWithLabel sx={{color:"orange"}}value={progress} /><Typography sx={{ fontSize: "clamp(4rem, 10vw, 4rem)", fontWeight: 'bold', lineHeight: { xs: "2rem", lg:"12rem" }, color:"white" }}>
+        Event<span style={{  color:  "orange"  }}>Or</span>
+      </Typography></Box> // Replace with your custom loader component or styling
       ) : (
         <BrowserRouter>
           <Header />
