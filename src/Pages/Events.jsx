@@ -14,6 +14,9 @@ import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import AlertTitle from '@mui/material/AlertTitle';
 
 
 
@@ -96,11 +99,13 @@ let Events = () => {
 
 
 return(
-    <Box sx={{ flexGrow: 1, mt:"10lvh", mb:"10lvh" }}>
+    <Box sx={{ flexGrow: 1, padding:"10lvh 0 10lvh 0", background:"linear-gradient(180deg, rgba(38,38,38,1) 0%, rgba(254,166,0,1) 100%)"}} >
+    
+           
     <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
       {events.map((e, index) => (
         <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{padding:{xs:"0.5rem", sm:"1rem"}}}>
-           <Card sx={{ minWidth: 280, display:"flex", flexDirection:"column", justifyContent:"space-between", minHeight:"450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;" }}>
+           <Card sx={{ minWidth: 280, display:"flex", flexDirection:"column", justifyContent:"space-between", minHeight:"450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor:"rgba(255,255,255, 0.7)" }}>
             <CardActionArea>
               <CardMedia
                 component="img"
