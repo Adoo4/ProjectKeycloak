@@ -15,7 +15,23 @@ import Typography from '@mui/material/Typography';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [progress, setProgress] = React.useState(10);
+  const [progress, setProgress] = useState(10);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const imageUrl = 'https://i.postimg.cc/hjnXtfPJ/Towers.png';
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = imageUrl;
+
+    // Set state to true if the image loads successfully
+    img.onload = () => setIsImageLoaded(true);
+
+    // Handle loading error (optional)
+    img.onerror = () => {
+      console.error('Background image failed to load');
+      setIsImageLoaded(false);
+    };
+  }, [imageUrl]);
   useEffect(() => {
     // Set a timeout to hide the loader after a delay
     const timer = setTimeout(() => {
@@ -62,6 +78,9 @@ function App() {
     };
   }, []);
 
+
+  
+
   return (
     <div className="App">
       {loading ? (
@@ -81,7 +100,7 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home isImageLoaded={isImageLoaded}/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/events" element={<Events />} />
           </Routes>

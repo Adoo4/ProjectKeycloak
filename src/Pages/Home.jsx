@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
 
 
-let Home = () => {
+let Home = (isImageLoaded) => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     let [counter, setCounter] = useState(0)
@@ -64,7 +64,7 @@ let Home = () => {
         <Box
         sx={{
           backgroundImage: 'url("https://i.postimg.cc/hjnXtfPJ/Towers.png")',
-          filter: "grayscale(1)",
+          filter: isImageLoaded ? 'grayscale(1)' : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '100%',
