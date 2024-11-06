@@ -33,14 +33,17 @@ function App() {
     };
   }, [imageUrl]);
   useEffect(() => {
-    // Set a timeout to hide the loader after a delay
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000); // Adjust the delay time as needed
+    if (isImageLoaded) {
+      // Set a timeout to hide the loader after a delay
+      const timer = setTimeout(() => {
+        
+        setLoading(false);
+      }, 3000); // Adjust the delay time as needed
 
-    // Clean up the timer on component unmount
-    return () => clearTimeout(timer);
-  }, []);
+      // Clean up the timer on component unmount
+      return () => clearTimeout(timer);
+    }
+  }, [isImageLoaded]);
   function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number },
   ) {
@@ -76,7 +79,7 @@ function App() {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [isImageLoaded]);
 
 
   
