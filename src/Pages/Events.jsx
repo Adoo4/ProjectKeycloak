@@ -97,9 +97,9 @@ let Events = () => {
 
 return(
     <Box sx={{ flexGrow: 1, mt:"10lvh", mb:"10lvh" }}>
-    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+    <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
       {events.map((e, index) => (
-        <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{padding:"1rem"}}>
+        <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{padding:{xs:"0.5rem", sm:"1rem"}}}>
            <Card sx={{ minWidth: 280, display:"flex", flexDirection:"column", justifyContent:"space-between", minHeight:"450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;" }}>
             <CardActionArea>
               <CardMedia
@@ -108,7 +108,7 @@ return(
                 image="https://i.postimg.cc/PJvzwLbv/1730755372.jpg"
                 alt="Event card"
               />
-               <CardContent>
+               <CardContent sx={{display:"flex", flexDirection:"column", gap:"1rem"}}>
                 <Typography gutterBottom variant="h6" component="div">
                   {e.eventTitle}
                 </Typography>
