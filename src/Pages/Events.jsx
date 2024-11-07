@@ -17,13 +17,38 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AlertTitle from '@mui/material/AlertTitle';
+import axios from 'axios'
+
+
+let Events = (accessToken) => {
+    let [data, setData] = useState([])
+
+
+    useEffect(() => {
+        let fetchData = async () => {
+            try {
+                console.log("AKSES TOKEN:", accessToken)
+                const headers = {
+                    'Authorization': `Bearer ${accessToken}`,
+                };
+
+                let response = await axios.get("http://avajava.pro:8888/api/events/all", { headers });
+                if (response.data.length) {
+                    setData([...response.data])
+                }
+            } catch (error) { 
+                console.log(error.message) 
+            }
+
+        }
+
+        if (accessToken) {
+            fetchData();
+        }
+    }, [])
 
 
 
-let Events = () => {
-
-
-    let [data, setData] = useState(true)
     const events = [
         {
             eventId: 1,
@@ -98,48 +123,48 @@ let Events = () => {
 
 
 
-return(
-    <Box sx={{ flexGrow: 1, padding:"10lvh 0 10lvh 0", background:"linear-gradient(180deg, rgba(38,38,38,1) 0%, rgba(254,166,0,1) 100%)"}} >
-    
-           
-    <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-      {events.map((e, index) => (
-        <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{padding:{xs:"0.5rem", sm:"1rem"}}}>
-           <Card sx={{ minWidth: 280, display:"flex", flexDirection:"column", justifyContent:"space-between", minHeight:"450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor:"rgba(255,255,255, 0.7)" }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="250"
-                image="https://i.postimg.cc/PJvzwLbv/1730755372.jpg"
-                alt="Event card"
-              />
-               <CardContent sx={{display:"flex", flexDirection:"column", gap:"1rem"}}>
-                <Typography gutterBottom variant="h6" component="div">
-                  {e.eventTitle}
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-                  <LocationOnIcon sx={{fontSize:20}}/>
-                  <Typography variant="h7" component="div">
-                    {e.eventLocation}
-                  </Typography>
-                </Box>
-                <Typography variant="body3" color="text.secondary">
-                  {e.eventDescription}
-                </Typography>
-              </CardContent> 
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                DETAILS
-              </Button>
-            </CardActions>
-          </Card>
+    return (
+        <Box sx={{ flexGrow: 1, padding: "10lvh 0 10lvh 0", background: "linear-gradient(180deg, rgba(38,38,38,1) 0%, rgba(254,166,0,1) 100%)" }} >
 
-        </Grid>
-      ))}
-    </Grid>
-  </Box>
-)
+
+            <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                {(data.length ? data : events).map((e, index) => (
+                    <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
+                        <Card sx={{ minWidth: 280, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "rgba(255,255,255, 0.7)" }}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    height="250"
+                                    image="https://i.postimg.cc/PJvzwLbv/1730755372.jpg"
+                                    alt="Event card"
+                                />
+                                <CardContent sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        {e.eventTitle}
+                                    </Typography>
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                                        <LocationOnIcon sx={{ fontSize: 20 }} />
+                                        <Typography variant="h7" component="div">
+                                            {e.eventLocation}
+                                        </Typography>
+                                    </Box>
+                                    <Typography variant="body3" color="text.secondary">
+                                        {e.eventDescription}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                            <CardActions>
+                                <Button size="small" color="primary">
+                                    DETAILS
+                                </Button>
+                            </CardActions>
+                        </Card>
+
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
+    )
 
 
 

@@ -15,11 +15,11 @@ import KeyOffIcon from '@mui/icons-material/KeyOff';
 
 
 
-let Header = () => {
-  let [isAuthenticated, setIsAuthenticated] = useState(false);
-  let [accessToken, setAccessToken] = useState("");
-  let [refreshToken, setRefreshToken] = useState("");
+let Header = ({accessToken, setAccessToken,refreshToken,setRefreshToken}) => {
+ 
+  
   let [scrolled, setScrolled] = useState(false);
+  let [isAuthenticated, setIsAuthenticated] = useState(false);
   let navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
@@ -41,15 +41,24 @@ let Header = () => {
     let authenticate = async () => {
       try {
         let authenticated = await keycloak.init({
-          pkceMethod: "S256",  enableLogging: true, // Enable logging
-          logLevel: 'debug', // Set log level to debug
+          pkceMethod: "S256",  onLoad:"check-sso"
           
         });
-
+        console.log("Authenticated:", authenticated);
+        console.log("TOKEN:", keycloak.token);
+        let token = keycloak.token;
+        setAccessToken(token);
         if (authenticated) {
+          if(token) {
+            setAccessToken(token);
+            console.log("Token received:", token);
+          }else {
+            console.log("Failed to retrieve token.");
+            
+          }
           setIsAuthenticated(true);
-          setAccessToken(keycloak.token);
-          console.log(keycloak.token)
+          
+          console.log(token)
           console.log(keycloak.refreshToken);
           setRefreshToken(keycloak.refreshToken);
 
@@ -57,9 +66,10 @@ let Header = () => {
             try {
               let refreshed = await keycloak.updateToken(30); // 30 seconds buffer
               if (refreshed) {
-                setAccessToken(keycloak.token); // Update state with the new token
-                console.log("Token refreshed", keycloak.token);
-                console.log(accessToken);
+                let token = keycloak.token;
+                setAccessToken(token); // Update state with the new token
+                console.log("Token refreshed", token);
+                console.log(token);
                 console.log(refreshToken);
               }
             } catch (error) {
