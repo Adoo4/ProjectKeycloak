@@ -130,15 +130,15 @@ let Home = ({isImageLoaded}) => {
                     </Box>
                 </Box>
 
-                <Box sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'orange', padding: "1rem" }}>
+                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'orange', padding: "1rem" }}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <Typography sx={{ fontSize: { xs: "1.8rem", md: "4rem", lg: "4rem" }, fontWeight:"bold", color: "black" }}>{counter}</Typography>
-                        <Typography sx={{ color: "black", fontSize: "0.85rem", fontWeight: "bold" }}>EVENTS</Typography>
+                        <Typography  sx={{ fontSize: { xs: "1.8rem", md: "4rem", lg: "4rem" }, fontWeight:"bold", color: "black" }}>{counter}</Typography>
+                        <Typography sx={{ color: "black", fontSize: "0.80rem", fontWeight: "bold" }}>EVENTS</Typography>
                     </Box>
                     <Divider orientation="vertical" flexItem sx={{ mx: 2, transition: 'border 4s ease', border: show2 ? "1px solid black" : "1px solid transparent" }} />
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <Typography sx={{ fontSize: { xs: "1.8rem", md: "4rem", lg: "4rem" }, fontWeight:"bold", color: "black" }}>{`+${counter2}M`}</Typography>
-                        <Typography sx={{ color: "black", fontSize: "0.85rem", fontWeight: "bold" }}>RESERVATIONS</Typography>
+                        <Typography sx={{ color: "black", fontSize: "0.80rem", fontWeight: "bold" }}>RESERVATIONS</Typography>
                     </Box>
                 </Box>
             </Box>

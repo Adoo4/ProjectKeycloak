@@ -118,13 +118,61 @@ let Events = (accessToken) => {
         }
     ];
 
-
+    const panoramaImages = [
+        {
+            city: 'Tokyo',
+            country: 'Japan',
+            imageUrl: 'https://media.istockphoto.com/id/1692368430/photo/aerial-coit-tower-in-late-afternoon-with-downtown-san-francisco-skyscrapers-and-distant-bridge.jpg?s=2048x2048&w=is&k=20&c=V78ykggHv3YFdYb3L5Y4o48xSHkgrUF0Xs4hq3TWzK4=' // Tokyo skyline
+        },
+        {
+            city: 'New York City',
+            country: 'USA',
+            imageUrl: 'https://fullsuitcase.com/wp-content/uploads/2022/05/One-day-in-New-York-USA-NYC-day-trip-itinerary-735x490.jpg.webp' // NYC skyline panorama
+        },
+        {
+            city: 'Beijing',
+            country: 'China',
+            imageUrl: 'https://media.istockphoto.com/id/601158224/photo/aerial-view-of-a-downtown-la-at-sunset.jpg?s=612x612&w=0&k=20&c=V36E4qOGijXZzhlLYqWgw0zoGCtD7Cv4WKDq6SwWG5U=' // Beijing cityscape
+        },
+        {
+            city: 'Moscow',
+            country: 'Russia',
+            imageUrl: 'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2hpY2Fnb3xlbnwwfHwwfHx8MA%3D%3D' // Moscow city view
+        },
+        {
+            city: 'Paris',
+            country: 'France',
+            imageUrl: 'https://www.agoda.com/wp-content/uploads/2024/05/Featured-image-Austin-TX-USA-1244x700.jpg' // Paris city panorama
+        },
+        {
+            city: 'London',
+            country: 'United Kingdom',
+            imageUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHRva3lvfGVufDB8fDB8fHww' // London city view
+        },
+        {
+            city: 'Berlin',
+            country: 'Germany',
+            imageUrl: 'https://content.paulreiffer.com/wp-content/uploads/2023/03/Golden-Blue-Hour-City-Downtown-Brickell-Town-Center-Rooftop-Night-Cityscape-Miami-Florida-Fine-Art-Wall-Decor-Paul-Reiffer-Professional-Landscape-Photographer-Phase-One.jpg' // Berlin skyline
+        },
+        {
+            city: 'Delhi',
+            country: 'India',
+            imageUrl: 'https://content.paulreiffer.com/wp-content/uploads/2015/06/beijing-city-skyline-park-hyatt-china-summit-wing-night-cityscape-paul-reiffer-china.jpg' // Delhi city view
+        },
+        {
+            city: 'Rio de Janeiro',
+            country: 'Brazil',
+            imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' // Rio de Janeiro panoramic view
+        }
+    ];
+    
+      
 
 
 
 
     return (
-        <Box sx={{ flexGrow: 1, padding: "10lvh 0 10lvh 0", background: "linear-gradient(180deg, rgba(38,38,38,1) 0%, rgba(254,166,0,1) 100%)" }} >
+        <Box sx={{ flexGrow: 1, padding: "10lvh 0 10lvh 0", background: "#8cbce4" }} >
 
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -135,7 +183,7 @@ let Events = (accessToken) => {
                                 <CardMedia
                                     component="img"
                                     height="250"
-                                    image="https://i.postimg.cc/PJvzwLbv/1730755372.jpg"
+                                    image={panoramaImages[index].imageUrl}
                                     alt="Event card"
                                 />
                                 <CardContent sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
