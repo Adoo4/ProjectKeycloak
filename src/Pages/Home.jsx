@@ -79,7 +79,7 @@ let Home = ({isImageLoaded, accessToken, loginFailed}) => {
 
             <Box
                 sx={{
-                  backgroundImage: 'linear-gradient(to right, black, transparent), url("https://i.postimg.cc/hjnXtfPJ/Towers.png")',
+                  backgroundImage: ' url("https://i.postimg.cc/hjnXtfPJ/Towers.png")',
                     filter: isImageLoaded ? 'grayscale(1)' : 'none',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
