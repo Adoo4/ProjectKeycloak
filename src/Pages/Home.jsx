@@ -108,7 +108,7 @@ let Home = ({isImageLoaded, accessToken, loginFailed}) => {
                 textAlign: 'left',
                 mixBlendMode: 'normal'
             }}>
-                <Box sx={{ display: "flex", flexDirection: "column", background: "rgba(0, 0, 0, 0.5)", padding:"1rem" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", background: "rgba(0, 0, 0, 0.5)", padding:"1rem", boxShadow: "box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}>
                     <Typography sx={{ fontSize: "clamp(4rem, 10vw, 10rem)", fontWeight: 'bold', lineHeight: { xs: "clamp(3rem, 17vw, 3.5rem)", sm: "8vw", md: "8vw", lg: "8vw" } }}>
                         Event<span style={{ transition: 'color 4s ease', color: show2 ? "orange" : "white" }}>Or</span>
                     </Typography>
@@ -126,7 +126,7 @@ let Home = ({isImageLoaded, accessToken, loginFailed}) => {
                     </Box>
                 </Box>
 
-                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'rgba(249, 180, 45, 0.8)', padding: "1rem" }}>
+                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'rgba(249, 191, 59, 0.8)', padding: "1rem", boxShadow: "box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <Typography  sx={{ fontSize: { xs: "1.8rem", md: "4rem", lg: "4rem" }, fontWeight:"bold", color: "black" }}>{counter}</Typography>
                         <Typography sx={{ color: "black", fontSize: "0.80rem", fontWeight: "bold" }}>EVENTS</Typography>

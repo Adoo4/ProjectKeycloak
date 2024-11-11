@@ -31,27 +31,28 @@ let Events = (accessToken) => {
     useEffect(() => {
         let fetchData = async () => {
             try {
-                console.log("AKSES TOKEN:", accessToken)
+                console.log("ACCESS TOKEN:", accessToken);
+    
                 const headers = {
-                    'Authorization': `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${accessToken}`,
                 };
-
-                let response = await axios.get("http://avajava.pro:8888/api/events/all"
-                );
+    
+                let response = await axios.get("http://avajava.pro:8888/api/events/all", {
+                    headers: headers,
+                });
+    
                 if (response.data.length) {
-                    setData([...response.data])
-                    console.log("RESPONSE:", response.data)
+                    setData([...response.data]);
+                    console.log("Response valid");
+                    console.log("RESPONSE:", response.data);
                 }
             } catch (error) { 
-                console.log(error.message) 
+                console.log("ERROR:", error.message); 
             }
-
-        }
-
-        
-            fetchData();
-        
-    }, [])
+        };
+    
+        fetchData();
+    }, []);
 
 
 
@@ -180,7 +181,7 @@ let Events = (accessToken) => {
     return (
         <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", background: "#8cbce4", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center",  }} >
            
-            <Card variant="outlined" sx={{width:"100%", height:"10lvh", borderRadius:"5px", border:"2px solid white" ,display:"flex", gap:"1rem", fontSize:"1.2rem", color:"black", minWidth: 280, maxWidth: 500, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "rgba(255,255,255, 0.7)"}}><AddCircleIcon/>ADD NEW EVENT</Card>
+            <Card variant="outlined" sx={{width:"100%", height:"10lvh", borderRadius:"5px", border:"2px solid white" ,display:"flex", flexDirection:"column", gap:"1rem", fontSize:"1.2rem", color:"black", minWidth: 280, maxWidth: 500, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "rgba(255,255,255, 0.7)"}}><AddCircleIcon/>ADD EVENT</Card>
 
 
             
