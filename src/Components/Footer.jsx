@@ -16,7 +16,7 @@ const Footer = () => {
       }}
     >
       <Typography variant="body1">
-        © {new Date().getFullYear()} ITAkademija Praksa Group. All rights reserved.
+        © {new Date().getFullYear()} Adnan Bajraktarević and Mile Vukajlović. All rights reserved.
       </Typography>
     </Box>
   );

@@ -7,7 +7,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 
-let Home = ({isImageLoaded}) => {
+let Home = ({isImageLoaded, accessToken, loginFailed}) => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [counter, setCounter] = useState(0);
@@ -69,21 +69,17 @@ let Home = ({isImageLoaded}) => {
         setCounter2(16);
       }
     }, []);
+
+    useEffect(()=>{}, ) //napraviti tajmer da nakon izvjesnog vremena alert login fail nestane kao i login success
     
     
   
     return (
         <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
-          <Stack sx={{ width: '100%', position:"absolute", left:"0%", top:"40%" }} spacing={2}>
-      <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
-        This is a success Alert with an encouraging title.
-      </Alert>
-     
-    </Stack>
+
             <Box
                 sx={{
-                    backgroundImage: 'url("https://i.postimg.cc/hjnXtfPJ/Towers.png")',
+                  backgroundImage: 'linear-gradient(to right, black, transparent), url("https://i.postimg.cc/hjnXtfPJ/Towers.png")',
                     filter: isImageLoaded ? 'grayscale(1)' : 'none',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
@@ -130,7 +126,7 @@ let Home = ({isImageLoaded}) => {
                     </Box>
                 </Box>
 
-                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'orange', padding: "1rem" }}>
+                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'rgba(249, 180, 45, 0.8)', padding: "1rem" }}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <Typography  sx={{ fontSize: { xs: "1.8rem", md: "4rem", lg: "4rem" }, fontWeight:"bold", color: "black" }}>{counter}</Typography>
                         <Typography sx={{ color: "black", fontSize: "0.80rem", fontWeight: "bold" }}>EVENTS</Typography>

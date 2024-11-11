@@ -18,6 +18,10 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AlertTitle from '@mui/material/AlertTitle';
 import axios from 'axios'
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import InfoIcon from '@mui/icons-material/Info';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 let Events = (accessToken) => {
@@ -32,9 +36,11 @@ let Events = (accessToken) => {
                     'Authorization': `Bearer ${accessToken}`,
                 };
 
-                let response = await axios.get("http://avajava.pro:8888/api/events/all", { headers });
+                let response = await axios.get("http://avajava.pro:8888/api/events/all"
+                );
                 if (response.data.length) {
                     setData([...response.data])
+                    console.log("RESPONSE:", response.data)
                 }
             } catch (error) { 
                 console.log(error.message) 
@@ -42,9 +48,9 @@ let Events = (accessToken) => {
 
         }
 
-        if (accessToken) {
+        
             fetchData();
-        }
+        
     }, [])
 
 
@@ -172,8 +178,12 @@ let Events = (accessToken) => {
 
 
     return (
-        <Box sx={{ flexGrow: 1, padding: "10lvh 0 10lvh 0", background: "#8cbce4" }} >
+        <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", background: "#8cbce4", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center",  }} >
+           
+            <Card variant="outlined" sx={{width:"100%", height:"10lvh", borderRadius:"5px", border:"2px solid white" ,display:"flex", gap:"1rem", fontSize:"1.2rem", color:"black", minWidth: 280, maxWidth: 500, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "rgba(255,255,255, 0.7)"}}><AddCircleIcon/>ADD NEW EVENT</Card>
 
+
+            
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {(data.length ? data : events).map((e, index) => (
@@ -201,10 +211,15 @@ let Events = (accessToken) => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    DETAILS
+                            <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+                                <Button size="small" color="default">
+                                  <InfoIcon />  
                                 </Button>
+
+                                <Box>
+                                <Button size="small" color="default" ><EditNoteIcon/></Button>
+                                <Button size="small" color="default" ><DeleteIcon/></Button>
+                                </Box>
                             </CardActions>
                         </Card>
 

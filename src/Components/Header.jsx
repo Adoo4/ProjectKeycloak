@@ -15,7 +15,7 @@ import KeyOffIcon from '@mui/icons-material/KeyOff';
 
 
 
-let Header = ({accessToken, setAccessToken,refreshToken,setRefreshToken}) => {
+let Header = ({accessToken, setAccessToken,refreshToken,setRefreshToken, setLoginFailed}) => {
  
   
   let [scrolled, setScrolled] = useState(false);
@@ -80,7 +80,7 @@ let Header = ({accessToken, setAccessToken,refreshToken,setRefreshToken}) => {
 
           // Cleanup interval on unmount
           return () => clearInterval(intervalId);
-        }
+        }else { setLoginFailed(true)}
       } catch (error) {
         console.log("Keycloak initialization failed", error);
       }
