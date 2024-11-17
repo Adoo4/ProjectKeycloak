@@ -7,9 +7,9 @@ import Events from './Pages/Events';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
+
 
 
 function App() {

@@ -18,41 +18,84 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import AlertTitle from '@mui/material/AlertTitle';
 import axios from 'axios'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Modal from '@mui/material/Modal';
+import zIndex from '@mui/material/styles/zIndex';
+import CloseIcon from '@mui/icons-material/Close';
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
-let Events = (accessToken) => {
+
+let Events = ({accessToken}) => {
     let [data, setData] = useState([])
+    let [loading, setloading] = useState(true)
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [value, setValue] = useState(null);
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "50%",
+        minWidth:"320px",
+        maxWidth :"600px",
+        zIndex:"1000000",
+        background: 'rgba(255,255,255,0.9)',
+   
+        boxShadow: 24,
+        p: 4,
+        display:"flex",
+        flexDirection:"column",
+        gap:"2rem",
 
+        borderRadius:"30px"
+      };
+
+     
     useEffect(() => {
         let fetchData = async () => {
+            console.log(typeof accessToken)
             try {
+                // Ensure accessToken is defined and is a string
+                if (!accessToken || typeof accessToken !== 'string') {
+                    throw new Error("Access token is missing or invalid.");
+                }
+        
                 console.log("ACCESS TOKEN:", accessToken);
-    
+        
                 const headers = {
                     Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
                 };
-    
-                let response = await axios.get("http://avajava.pro:8888/api/events/all", {
-                    headers: headers,
-                });
-    
+        
+                // Make the API request
+                let response = await axios.get("/api/events/all", { headers });
+        
+                // Process response
                 if (response.data.length) {
                     setData([...response.data]);
-                    console.log("Response valid");
                     console.log("RESPONSE:", response.data);
+                    setloading(false)
                 }
-            } catch (error) { 
-                console.log("ERROR:", error.message); 
+            } catch (error) {
+                console.error("ERROR:", error.message);
             }
         };
+        
     
         fetchData();
-    }, []);
+    }, [accessToken]);
 
 
 
@@ -170,6 +213,11 @@ let Events = (accessToken) => {
             city: 'Rio de Janeiro',
             country: 'Brazil',
             imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' // Rio de Janeiro panoramic view
+        },
+        {
+            city: 'Rio de Janeiro',
+            country: 'Brazil',
+            imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' // Rio de Janeiro panoramic view
         }
     ];
     
@@ -179,16 +227,21 @@ let Events = (accessToken) => {
 
 
     return (
-        <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", background: "#8cbce4", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center",  }} >
+        <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", width:"100%" ,background: "#8cbce4", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", gap:"2rem"  }} >
            
-            <Card variant="outlined" sx={{width:"100%", height:"10lvh", borderRadius:"5px", border:"2px solid white" ,display:"flex", flexDirection:"column", gap:"1rem", fontSize:"1.2rem", color:"black", minWidth: 280, maxWidth: 500, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "rgba(255,255,255, 0.7)"}}><AddCircleIcon/>ADD EVENT</Card>
+           <Box   sx={{ '& > :not(style)': { m: 1 }, position: "fixed", bottom: "2rem", right: "1rem", zIndex:"99",  width:"50%", minWidth:"220px", display:"flex", justifyContent:"space-around", alignItems:"center", maxWidth:"300px", background:"#8cbce4", borderRadius:"30px 0px 0px 30px" }}>
+  <Typography sx={{fontWeight:"bold", color:"white"}}>ADD NEW EVENT</Typography>
+  <Fab size="large" color="primary" aria-label="add" onClick={handleOpen}>
+    <AddIcon />
+  </Fab>
+</Box>
 
 
             
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                {(data.length ? data : events).map((e, index) => (
-                    <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
+                {data.map((e, index) => (
+                    <Grid key={e.eventId} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
                         <Card sx={{ minWidth: 280, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "rgba(255,255,255, 0.7)" }}>
                             <CardActionArea>
                                 <CardMedia
@@ -212,12 +265,12 @@ let Events = (accessToken) => {
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions sx={{display:"flex", justifyContent:"space-between"}}>
+                            <CardActions sx={{display:"flex", justifyContent:"space-between", background:"coral"}}>
                                 <Button size="small" color="default">
                                   <InfoIcon />  
                                 </Button>
 
-                                <Box>
+                                <Box sx={{background:"orange", borderRadius:"2rem"}}>
                                 <Button size="small" color="default" ><EditNoteIcon/></Button>
                                 <Button size="small" color="default" ><DeleteIcon/></Button>
                                 </Box>
@@ -227,6 +280,54 @@ let Events = (accessToken) => {
                     </Grid>
                 ))}
             </Grid>
+
+
+            <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+            <Button sx={{position:"absolute", right:"0rem", top:"0.2rem"}} onClick={()=>setOpen(false)}><CloseIcon/></Button>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            New Event
+          </Typography>
+          <Box component="form" sx={{display:"flex", flexDirection:"column", gap:"1.3rem"}}>
+          <TextField id="standard-basic" label="Title" variant="standard" sx={{width:"100%", maxWidth:"400px"}}/>
+          <TextField id="standard-basic" label="Location" variant="standard" sx={{width:"100%", maxWidth:"400px"}}/>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label="Date"
+        value={value}
+        onChange={(newValue) => {
+          setValue(newValue);
+          
+          
+        }}
+        placeholder="Enter your events description"
+        sx={{width:"100%", maxWidth:"400px"}}
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </LocalizationProvider>
+    <TextField
+          id="outlined-multiline-static"
+          label="Description"
+          multiline
+          rows={4}
+          placeholder="Describe your event"
+        />
+
+
+          </Box>
+
+          <Box sx={{alignSelf:"flex-end"}}>
+          <Button>CANCEL</Button>
+            <Button>ADD</Button>
+
+          </Box>
+        </Box>
+      </Modal>
         </Box>
     )
 
@@ -235,6 +336,31 @@ let Events = (accessToken) => {
 }
 
 export default Events
+
+/*
+Frontend Workaround
+Verify Preflight Handling:
+
+The preflight (OPTIONS) request is sent before your actual GET request.
+While you can't modify preflight requests, ensure the backend server responds correctly to it.
+Temporary Frontend Proxy (For Development):
+
+If you don't control the backend server and are stuck, set up a proxy:
+In your React package.json:
+json
+Copy code
+"proxy": "http://avajava.pro:8888"
+Change your Axios request to remove the domain, e.g.:
+javascript
+Copy code
+let response = await axios.get("/api/events/all", {
+    headers: { Authorization: `Bearer ${accessToken}` }
+});
+This will make requests appear as if they are coming from the same origin and bypass the preflight.
+
+
+
+*/ 
 
 
 
