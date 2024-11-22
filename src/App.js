@@ -22,6 +22,7 @@ function App() {
   let [accessToken, setAccessToken] = useState(null);
   let [refreshToken, setRefreshToken] = useState("");
   let [loginFailed, setLoginFailed] = useState(false);
+  let [user, setUser] = useState(null);
 
   useEffect(() => {
     const img = new Image();
@@ -100,11 +101,11 @@ function App() {
         </Box>
       ) : (
         <BrowserRouter>
-          <Header accessToken={accessToken} setAccessToken={setAccessToken} refreshToken={refreshToken} setRefreshToken={setRefreshToken} setLoginFailed={setLoginFailed} />
+          <Header accessToken={accessToken} setAccessToken={setAccessToken} refreshToken={refreshToken} setRefreshToken={setRefreshToken} setLoginFailed={setLoginFailed} user={user} setUser={setUser} />
           <Routes>
             <Route path="/" element={<Home isImageLoaded={isImageLoaded} accessToken={accessToken} loginFailed={loginFailed} setLoginFailed={setLoginFailed} />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/events" element={<Events accessToken={accessToken} />} />
+            <Route path="/events" element={<Events accessToken={accessToken} user={user} setUser={setUser}/>} />
           </Routes>
           <Footer />
         </BrowserRouter>

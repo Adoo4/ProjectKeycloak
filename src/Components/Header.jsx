@@ -21,10 +21,10 @@ import Avatar from '@mui/material/Avatar';
 
 
 
-let Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setLoginFailed }) => {
+let Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setLoginFailed,user, setUser }) => {
   let [scrolled, setScrolled] = useState(false);
   let [isAuthenticated, setIsAuthenticated] = useState(false);
-  let [user, setUser] = useState(null);
+  
   let [userRole, setUserRole] = useState(null);
   let navigate = useNavigate();
 
@@ -68,7 +68,8 @@ let Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setL
             }
             console.log("Token received:", token);
             const decoded = jwtDecode(token);
-            setUser(decoded.preferred_username);
+            setUser(decoded);
+            //setUser(decoded.preferred_username);
             console.log(decoded);
 
           } else {
@@ -140,7 +141,7 @@ let Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setL
 
 
           {isAuthenticated ? <Stack direction="row" spacing={1}>
-            <Chip avatar={<Avatar><PersonIcon sx={{ background: "white" }} /></Avatar>} label={user} color="warning" sx={{
+            <Chip avatar={<Avatar><PersonIcon sx={{ background: "white" }} /></Avatar>} label={user.preferred_username} color="warning" sx={{
               display: { xs: "none", sm: "flex" }, backgroundColor: 'transparent',
               color: 'orange',
               '& .MuiChip-avatar': {

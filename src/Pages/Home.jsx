@@ -126,7 +126,7 @@ let Home = ({isImageLoaded, accessToken, loginFailed}) => {
                     </Box>
                 </Box>
 
-                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'rgba(249, 191, 59, 0.8)', padding: "1rem", boxShadow: "box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}>
+                <Box  sx={{ display: "flex", justifyContent: "space-evenly", width: { xs: "330px", sm: "100%" }, minWidth: "340px", maxWidth: "740px", gap: "1rem", backgroundColor: 'orange', padding: "1rem", boxShadow: "box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" }}>
                     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                         <Typography  sx={{ fontSize: { xs: "1.8rem", md: "4rem", lg: "4rem" }, fontWeight:"bold", color: "black" }}>{counter}</Typography>
                         <Typography sx={{ color: "black", fontSize: "0.80rem", fontWeight: "bold" }}>EVENTS</Typography>
