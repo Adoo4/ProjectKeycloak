@@ -350,7 +350,7 @@ let Events = ({ accessToken, user }) => {
                     // Render skeletons while loading
                     Array.from({ length: 6 }).map((_, index) => (
                         <ThemeProvider theme={themeSkeleton}>
-                            <Grid key={index} size={{ xs: 1, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
+                            <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
                                 <Card sx={{ minWidth: 250, minHeight: 450, padding: "1rem", display: "flex", flexDirection: "column", gap: "1rem", backgroundColor: "#323231" }}>
                                     <Skeleton variant="rectangular" height={250} />
                                     <Skeleton variant="text" width="60%" />
