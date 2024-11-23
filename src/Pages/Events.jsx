@@ -31,6 +31,7 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Skeleton from '@mui/material/Skeleton';
@@ -53,7 +54,7 @@ let Events = ({ accessToken, user }) => {
     const handleClose = () => setOpen(false);
     const handleOpen2 = () => setOpen2(true);
     const handleClose2 = () => setOpen2(false);
-    const handleOpen3 = () => setOpen(true);
+    const handleOpen3 = () => setOpen3(true);
     const handleClose3 = () => setOpen(false);
     const [value, setValue] = useState(null);
     let [postData, setPostData] = useState({
@@ -66,7 +67,7 @@ let Events = ({ accessToken, user }) => {
     let [selectedEvent, setSelectedEvent] = useState(null)
 
     let [editEvent, setEditEvent] = useState({
-        eventTitle: "",  //OVDJE SAM STAO
+        eventTitle: "",
         eventDescription: "",
         eventLocation: "",
         eventDate: ""
@@ -231,7 +232,9 @@ let Events = ({ accessToken, user }) => {
         let title = e.eventTitle;
         let location = e.eventLocation; // Corrected here
         let description = e.eventDescription; // Corrected here
-        let date = e.eventDate;
+        let date = dayjs(e.eventDate);
+
+        console.log(date)
 
         setEditEvent({
             eventTitle: title,
@@ -318,13 +321,37 @@ let Events = ({ accessToken, user }) => {
 
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, minHeight: "90lvh", justifyContent: "center", alignItems: "center", width: "100%", padding: "2rem", borderRadius: "1rem" }}>
+                
+  <img 
+    src="https://i.postimg.cc/L61Ms5qq/edited2222-removebg.png" 
+    style={{
+      maxWidth: "600px", 
+      opacity: 1,
+      minWidth: "300px", 
+      width: "100%",
+     
+      //mixBlendMode: "color-burn", // Blend with orange background
+    }} 
+    alt="" 
+  />
+
+                    <Box>
+                        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", color: "white", fontSize: { lg: "5rem" } }}>Choose Your Perfect Event</Typography>
+                        <Typography variant="subtitle1" component="p" sx={{ color: "#2c2c2c", fontSize: { lg: "2rem" } }}>Discover experiences tailored just for you</Typography>
+                    </Box>
+                <Box>
+                
+                </Box>
+                <i class="fi fi-rr-music-alt"></i>
+                </Box>
                 {loading ? (
 
                     // Render skeletons while loading
                     Array.from({ length: 6 }).map((_, index) => (
                         <ThemeProvider theme={themeSkeleton}>
-                            <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
-                                <Card sx={{ minWidth: 280, minHeight: 450, padding: "1rem", display: "flex", flexDirection: "column", gap: "1rem", backgroundColor: "#323231" }}>
+                            <Grid key={index} size={{ xs: 1, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
+                                <Card sx={{ minWidth: 250, minHeight: 450, padding: "1rem", display: "flex", flexDirection: "column", gap: "1rem", backgroundColor: "#323231" }}>
                                     <Skeleton variant="rectangular" height={250} />
                                     <Skeleton variant="text" width="60%" />
                                     <Skeleton variant="text" width="80%" />
@@ -338,15 +365,16 @@ let Events = ({ accessToken, user }) => {
                     // Render actual data
                     data?.map((e, index) => (
                         <Grid key={e.eventId} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
-                            <Card sx={{ minWidth: 280, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "#595959", color: "lightgray", borderTop: "10px solid orange" }}>
+                            <Card sx={{ minWidth: 250, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "#595959", color: "lightgray" }}>
                                 <Stack spacing={4} direction="row" sx={{ color: 'action.active' }}>
-                                    <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", flexGrow: 1, padding: "0.75rem" }}>
+                                    <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", flexGrow: 1, padding: "0.75rem", gap: "1rem", background: "orange" }}>
+                                        <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>PARTICIPANTS</Typography>
                                         <Badge
                                             color="warning"
                                             badgeContent={1}
                                             sx={{ zIndex: 99 }}
                                         >
-                                            <BeenhereIcon />
+                                            <BeenhereIcon fontSize="small" />
                                         </Badge>
                                     </Box>
 
@@ -362,44 +390,44 @@ let Events = ({ accessToken, user }) => {
                                         <Typography gutterBottom variant="h6" component="div" sx={{ color: "#f2f2f2" }}>
                                             {e.eventTitle}
                                         </Typography>
-                                        <Box sx={{display:"flex", justifyContent:"space-around", background:"gray"}}>
-                                        <Box sx={{ display: "flex", alignItems: "center", gap: "0.15rem" }}>
+                                        <Box sx={{ display: "flex", justifyContent: "space-around", background: "gray" }}>
+                                            <Box sx={{ display: "flex", alignItems: "center", gap: "0.15rem" }}>
 
-                                            <Typography variant="h7" component="div" sx={{ color: "darkgray", }}>
-                                                <Stack direction="row" spacing={1}>
-                                                    <Chip sx={{background:"transparent"}}
-                                                        label={
-                                                            <span>
-                                                                <LocationOnIcon style={{ marginRight: "0.3rem", verticalAlign: "middle" }} />
-                                                               {e.eventLocation}
-                                                            </span>
-                                                        }
-                                                    />
+                                                <Typography variant="h7" component="div" sx={{ color: "darkgray", fontWeight: "bold" }}>
+                                                    <Stack direction="row" spacing={1}>
+                                                        <Chip sx={{ background: "transparent" }}
+                                                            label={
+                                                                <span>
+                                                                    <LocationOnIcon style={{ marginRight: "0.3rem", verticalAlign: "middle", color: "orange" }} />
+                                                                    {e.eventLocation}
+                                                                </span>
+                                                            }
+                                                        />
 
-                                                </Stack>
-                                            </Typography>
-                                        </Box>
-                                        <Box sx={{ display: "flex", alignItems: "center", gap: "0.15rem" }}>
-
-
-
-                                            <Typography variant="h7" component="div" sx={{ color: "darkgray" }}>
-
-                                                <Stack direction="row" spacing={1}>
-                                                    <Chip sx={{background:"transparent"}}
-                                                        label={
-                                                            <span>
-                                                                <CalendarMonthIcon style={{ marginRight: "0.3rem", verticalAlign: "middle" }} />
-                                                                 {e.eventDate}
-                                                            </span>
-                                                        }
-                                                    />
-
-                                                </Stack>
+                                                    </Stack>
+                                                </Typography>
+                                            </Box>
+                                            <Box sx={{ display: "flex", alignItems: "center", gap: "0.15rem" }}>
 
 
-                                            </Typography>
-                                        </Box>
+
+                                                <Typography variant="h7" component="div" sx={{ color: "darkgray", fontWeight: "bold" }}>
+
+                                                    <Stack direction="row" spacing={1}>
+                                                        <Chip sx={{ background: "transparent" }}
+                                                            label={
+                                                                <span>
+                                                                    <CalendarMonthIcon style={{ marginRight: "0.3rem", verticalAlign: "middle", color: "orange" }} />
+                                                                    {e.eventDate}
+                                                                </span>
+                                                            }
+                                                        />
+
+                                                    </Stack>
+
+
+                                                </Typography>
+                                            </Box>
                                         </Box>
                                         <Typography variant="body3" sx={{ color: "darkgray" }}>
                                             {e.eventDescription}
@@ -413,15 +441,15 @@ let Events = ({ accessToken, user }) => {
 
                                     {user?.resource_access?.["react-client"]?.roles[0] === "ADMIN" && (             //EDIT
                                         <Box sx={{ background: "orange", borderRadius: "2rem", color: "black" }}>
-                                            <Button size="small" color="default" onClick={() => handleOpen3()}>
-                                                <EditNoteIcon onClick={() => itemToEdit(e)} />
+                                            <Button size="small" color="default" onClick={() => { handleOpen3(); itemToEdit(e) }}>
+                                                <EditNoteIcon />
                                             </Button>
                                             <Button
                                                 size="small"
                                                 color="default"
                                                 onClick={() => {
                                                     setSelectedEvent(e.eventId);
-                                                    handleOpen2();
+                                                    handleOpen3();
                                                 }}
                                             >
                                                 <DeleteIcon />
@@ -591,8 +619,15 @@ let Events = ({ accessToken, user }) => {
                     </Box>
 
                     <Box sx={{ alignSelf: "flex-end" }}>
-                        <Button onClick={() => setOpen3(false)}>CANCEL</Button>
-                        <Button onClick={() => addNewEvent()}>ADD</Button>
+                        <Button onClick={() => {
+                            setOpen3(false); setEditEvent({
+                                eventTitle: "",
+                                eventDescription: "",
+                                eventLocation: "",
+                                eventDate: ""
+                            })
+                        }}>CANCEL</Button>
+                        <Button onClick={() => { }}>APPLY</Button>
 
                     </Box>
                 </Box>
