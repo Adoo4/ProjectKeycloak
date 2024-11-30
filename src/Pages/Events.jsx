@@ -40,6 +40,14 @@ import MailIcon from '@mui/icons-material/Mail';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { useNavigate } from 'react-router-dom';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import SportsFootballIcon from '@mui/icons-material/SportsFootball';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import { ShoppingBag } from '@mui/icons-material';
+
 
 
 
@@ -73,10 +81,19 @@ let Events = ({ accessToken, user }) => {
         eventDate: ""
     })
 
+    let [edit, setEdit] = useState({
+        eventTitle: "",
+        eventDescription: "",
+        eventLocation: "",
+        eventDate: ""
+    })
+
     const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
     };
+
+    let navigate = useNavigate();
     useEffect(() => {
         let fetchData = async () => {
             console.log(typeof accessToken)
@@ -108,7 +125,7 @@ let Events = ({ accessToken, user }) => {
         minWidth: "320px",
         maxWidth: "600px",
         zIndex: "1000000",
-        background: 'white',
+        background: 'lightgray',
 
         boxShadow: 24,
         p: 4,
@@ -229,6 +246,7 @@ let Events = ({ accessToken, user }) => {
     }
 
     let itemToEdit = (e) => {
+
         let title = e.eventTitle;
         let location = e.eventLocation; // Corrected here
         let description = e.eventDescription; // Corrected here
@@ -237,12 +255,45 @@ let Events = ({ accessToken, user }) => {
         console.log(date)
 
         setEditEvent({
+            eventId: e.eventId,
             eventTitle: title,
             eventLocation: location,  // Corrected
             eventDescription: description, // Corrected
             eventDate: date
         });
     };
+
+    let changeEvent = async () => {
+        let id = editEvent.eventId;
+        const payload = {
+            eventTitle: edit.eventTitle || editEvent.eventTitle, // Fallback to the current title if not edited
+            eventDescription: edit.eventDescription || editEvent.eventDescription,
+            eventLocation: edit.eventLocation || editEvent.eventLocation,
+            eventDate: edit.eventDate || editEvent.eventDate, // Ensure date defaults to the existing one
+        };
+
+
+        try {
+            console.log(id)
+            let response = await axios.put(`/api/events/${id}`, payload, { headers })
+            console.log("SUCCESS: ", response.data)
+            console.log("payload: ", payload)
+            if (response && response.data) {
+                //let convertedData = {eventTitle: payload}
+                console.log(payload)
+                console.log("data:",data)
+                setData(data.map((e, i) => e.eventId === id ? { ...response.data, eventId: id } : e))
+
+            }
+
+        }
+        catch (e) {
+
+            console.log(e.message)
+        }
+
+
+    }
 
 
 
@@ -301,9 +352,9 @@ let Events = ({ accessToken, user }) => {
             imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' // Rio de Janeiro panoramic view
         }
     ];
-
-
-
+    //rezervna slika
+    //https://img.freepik.com/free-photo/map-pin-location-direction-position-graphic_53876-124530.jpg?t=st=1732462094~exp=1732465694~hmac=18894946259011235e5de081433f1c0dede758c60b6eb1ed6a55f90630dd89f8&w=1380
+    //keyword za trazenje u freepik "location"
 
 
 
@@ -311,7 +362,7 @@ let Events = ({ accessToken, user }) => {
         <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", width: "100%", backgroundColor: "#2c2c2c", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "2rem" }} >
 
             {accessToken ? <Box sx={{ '& > :not(style)': { m: 1 }, position: "fixed", bottom: "5rem", right: "1rem", zIndex: "999", width: "50%", minWidth: "220px", display: "flex", justifyContent: "space-around", alignItems: "center", maxWidth: "300px", background: "#2c2c2c", borderRadius: "30px 0px 0px 30px", borderLeft: "20px solid orange" }}>
-                <Typography sx={{ fontWeight: "bold", color: "white" }}>ADD NEW EVENT</Typography>
+                <Typography sx={{ fontWeight: "bold", color: "white", fontSize: { xs: "0.7rem", sm: "0.8rem" } }}>ADD NEW EVENT</Typography>
                 <Fab size="large" sx={{ backgroundColor: "orange" }} aria-label="add" onClick={handleOpen}>
                     <AddIcon />
                 </Fab>
@@ -321,29 +372,34 @@ let Events = ({ accessToken, user }) => {
 
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, minHeight: "90lvh", justifyContent: "center", alignItems: "center", width: "100%", padding: "2rem", borderRadius: "1rem" }}>
-                
-  <img 
-    src="https://i.postimg.cc/L61Ms5qq/edited2222-removebg.png" 
-    style={{
-      maxWidth: "600px", 
-      opacity: 1,
-      minWidth: "300px", 
-      width: "100%",
-     
-      //mixBlendMode: "color-burn", // Blend with orange background
-    }} 
-    alt="" 
-  />
+                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, minHeight: { xs: "80lvh", lg: "50lvh" }, justifyContent: "center", alignItems: "center", width: "100%", minWidth: "350px", padding: "2rem", borderRadius: "1rem" }}>
 
-                    <Box>
+                    <img
+                        src="https://i.postimg.cc/L61Ms5qq/edited2222-removebg.png"
+                        style={{
+                            maxWidth: "600px",
+                            opacity: 1,
+                            minWidth: "250px",
+                            width: "100%",
+
+                            //mixBlendMode: "color-burn", // Blend with orange background
+                        }}
+                        alt=""
+                    />
+
+                    <Box sx={{display:"flex", flexDirection:"column"}}>
                         <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", color: "white", fontSize: { lg: "5rem" } }}>Choose Your Perfect Event</Typography>
                         <Typography variant="subtitle1" component="p" sx={{ color: "#2c2c2c", fontSize: { lg: "2rem" } }}>Discover experiences tailored just for you</Typography>
+                        <Box sx={{  display: 'flex', gap: '1rem', color:"#2c2c2c", mt:"1rem", alignSelf:"flex-end" }}>
+                            <MusicNoteIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <SportsFootballIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <LocalMallIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <TheaterComedyIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <SportsEsportsIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                        </Box>
                     </Box>
-                <Box>
-                
-                </Box>
-                <i class="fi fi-rr-music-alt"></i>
+
+
                 </Box>
                 {loading ? (
 
@@ -365,7 +421,7 @@ let Events = ({ accessToken, user }) => {
                     // Render actual data
                     data?.map((e, index) => (
                         <Grid key={e.eventId} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
-                            <Card sx={{ minWidth: 250, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "#595959", color: "lightgray" }}>
+                            <Card sx={{ minWidth: 250, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "#595959", color: "lightgray" }} >
                                 <Stack spacing={4} direction="row" sx={{ color: 'action.active' }}>
                                     <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", flexGrow: 1, padding: "0.75rem", gap: "1rem", background: "orange" }}>
                                         <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>PARTICIPANTS</Typography>
@@ -379,7 +435,11 @@ let Events = ({ accessToken, user }) => {
                                     </Box>
 
                                 </Stack>
-                                <CardActionArea>
+                                <CardActionArea
+                                    onClick={() => { accessToken ? navigate(`/events/${e.eventId}`) : console.log("Access key missing, acces denied") }}
+
+
+                                >
                                     <CardMedia
                                         component="img"
                                         height="250"
@@ -435,13 +495,13 @@ let Events = ({ accessToken, user }) => {
                                     </CardContent>
                                 </CardActionArea>
                                 <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-                                    <Button size="small" sx={{ color: "gray" }}>
+                                    <Button size="small" sx={{ color: "gray" }} onClick={() => { accessToken ? navigate(`/events/${e.eventId}`) : console.log("Access key missing, acces denied") }}>
                                         <InfoIcon />
                                     </Button>
 
                                     {user?.resource_access?.["react-client"]?.roles[0] === "ADMIN" && (             //EDIT
                                         <Box sx={{ background: "orange", borderRadius: "2rem", color: "black" }}>
-                                            <Button size="small" color="default" onClick={() => { handleOpen3(); itemToEdit(e) }}>
+                                            <Button size="small" color="default" onClick={() => { handleOpen3(); itemToEdit(e); console.log("ovoje e", e) }}>
                                                 <EditNoteIcon />
                                             </Button>
                                             <Button
@@ -449,7 +509,7 @@ let Events = ({ accessToken, user }) => {
                                                 color="default"
                                                 onClick={() => {
                                                     setSelectedEvent(e.eventId);
-                                                    handleOpen3();
+                                                    handleOpen2();
                                                 }}
                                             >
                                                 <DeleteIcon />
@@ -529,7 +589,7 @@ let Events = ({ accessToken, user }) => {
 
                     <Box sx={{ alignSelf: "flex-end" }}>
                         <Button onClick={() => setOpen(false)}>CANCEL</Button>
-                        <Button onClick={() => addNewEvent()}>ADD</Button>
+                        <Button  onClick={() =>{ addNewEvent(); setOpen(false)}}>ADD</Button>
 
                     </Box>
                 </Box>
@@ -550,7 +610,7 @@ let Events = ({ accessToken, user }) => {
                     </Typography>
                     <Box sx={{ alignSelf: "flex-end", display: "flex", gap: "1rem" }}>
                         <Button color="default" onClick={handleClose2}>CANCEL</Button>
-                        <Button variant="outlined" color="error" onClick={() => deleteEvent(selectedEvent)}>DELETE</Button>
+                        <Button variant="outlined" color="error" onClick={() => {deleteEvent(selectedEvent); setOpen2(false)}}>DELETE</Button>
 
                     </Box>
 
@@ -570,33 +630,33 @@ let Events = ({ accessToken, user }) => {
                     <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: "1.3rem" }}>
                         <TextField id="standard-basic" label="Title" variant="standard" defaultValue={editEvent?.eventTitle || ""} sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Title
                             style: { fontSize: '14px' }, // Label font size
-                        }} onChange={(e) => { setPostData({ ...postData, eventTitle: e.target.value }); console.log(postData) }} />
+                        }} onChange={(e) => { setEdit({ ...edit, eventTitle: e.target.value || editEvent.eventTitle }); }} />
                         <TextField id="standard-basic" label="Location" variant="standard" defaultValue={editEvent.eventLocation} sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Location
                             style: { fontSize: '14px' }, // Label font size
 
-                        }} onChange={(e) => { setPostData({ ...postData, eventLocation: e.target.value }); console.log(postData) }} />
+                        }} onChange={(e) => { setEdit({ ...edit, eventLocation: e.target.value || editEvent.eventLocation }); }} />
                         <ThemeProvider theme={theme}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
                                     label="Date"
-                                    value={value}
-                                    defaultValue={editEvent.eventDate}
+                                    value={value || editEvent.eventDate}
                                     onChange={(newValue) => {
-                                        setValue(newValue); // Update local state for the DatePicker
 
-                                        if (newValue) {
-                                            // Format the date correctly
-                                            const formattedDate = `${newValue.$y}-${String(newValue.$M + 1).padStart(2, '0')}-${String(newValue.$D).padStart(2, '0')}`;
-                                            // Update the postData state
-                                            setPostData((prevData) => ({ ...prevData, eventDate: formattedDate }));
+                                        const selectedDate = newValue || value || editEvent.eventDate;
 
-                                            console.log("Formatted Date:", formattedDate); // Log the formatted date
-                                            console.log(postData)
-                                        } else {
-                                            console.log("No date selected");
-                                            // Optionally clear the date field in postData
-                                            setPostData((prevData) => ({ ...prevData, eventDate: "" }));
-                                        }
+
+                                        setValue(selectedDate);
+
+
+                                        const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+
+
+                                        setEdit((prevData) => ({
+                                            ...prevData,
+                                            eventDate: formattedDate,
+                                        }));
+
+                                        console.log('Formatted Date:', formattedDate);
                                     }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
@@ -612,7 +672,7 @@ let Events = ({ accessToken, user }) => {
                             InputLabelProps={{
                                 style: { fontSize: '14px' }, // Label font size
                             }}
-                            onChange={(e) => { setPostData({ ...postData, eventDescription: e.target.value }); console.log(postData) }}
+                            onChange={(e) => { setEdit({ ...edit, eventDescription: e.target.value || editEvent.eventDescription }); console.log(edit) }}
                         />
 
 
@@ -627,7 +687,7 @@ let Events = ({ accessToken, user }) => {
                                 eventDate: ""
                             })
                         }}>CANCEL</Button>
-                        <Button onClick={() => { }}>APPLY</Button>
+                        <Button onClick={changeEvent}>APPLY</Button>
 
                     </Box>
                 </Box>

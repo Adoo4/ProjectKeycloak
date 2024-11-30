@@ -9,7 +9,8 @@ import Footer from './Components/Footer';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';
-
+import Page from './Pages/Page';
+import PrivateRoute from './Components/PrivateRoute';
 
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
             gap: "1rem",
           }}
         >
-          
+
           <Typography
             sx={{
               fontSize: "clamp(4rem, 10vw, 4rem)",
@@ -105,7 +106,18 @@ function App() {
           <Routes>
             <Route path="/" element={<Home isImageLoaded={isImageLoaded} accessToken={accessToken} loginFailed={loginFailed} setLoginFailed={setLoginFailed} />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/events" element={<Events accessToken={accessToken} user={user} setUser={setUser}/>} />
+            <Route path="/events" element={<Events accessToken={accessToken} user={user} setUser={setUser} />} />
+            <Route
+              path="/events/:eventId"
+              element={
+                <PrivateRoute
+                  element={<Page accessToken={accessToken} user={user} />}
+                  accessToken={accessToken}
+                />
+              }
+            />
+
+
           </Routes>
           <Footer />
         </BrowserRouter>
@@ -115,3 +127,6 @@ function App() {
 }
 
 export default App;
+
+
+//    <Route path="/events/:eventId" element={<Page accessToken={accessToken} user={user} />} />

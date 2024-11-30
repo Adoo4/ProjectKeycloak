@@ -86,6 +86,7 @@ let Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setL
             try {
               let refreshed = await keycloak.updateToken(30); // 30 seconds buffer
               if (refreshed) {
+                console.log("Refreshed token: ", refreshed)
                 let token = keycloak.token;
                 console.log("Keycloak token type:", typeof token); // Should be "string"
                 if (typeof token === "string") {
@@ -131,11 +132,11 @@ let Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setL
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ backgroundColor: scrolled ? 'rgba(0,0,0,0.5)' : 'transparent', transition: 'background-color 0.3s ease' }} elevation={0} >
         <Toolbar sx={{ gap: { xs: "0.6rem", sm: "1rem" }, display: "flex", justifyContent: "space-between" }}>
-          {/* Navigation Buttons */}
+          {/* Navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, justifyContent: 'flex-start', alignItems: "center", gap: { xs: "0.5rem", sm: "1rem" }, fontSize: "3rem" }}>
-            <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, '&:hover': { color: 'orange' } }} onClick={() => navigate("/")}><HomeIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" } }}>HOME</Typography>  </Button>
-            <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, '&:hover': { color: 'orange' } }} onClick={() => navigate("/events")}><EventIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" } }}>EVENTS</Typography> </Button>
-            <Button color="inherit" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, '&:hover': { color: 'orange' } }}><InfoIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" } }}>ABOUT</Typography></Button>
+            <Button color="inherit" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" }, '&:hover': { color: 'orange' } }} onClick={() => navigate("/")}><HomeIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" } ,fontSize: { xs: "0.7rem", sm: "0.9rem" } }}>HOME</Typography>  </Button>
+            <Button color="inherit" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" }, '&:hover': { color: 'orange' } }} onClick={() => navigate("/events")}><EventIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" }, fontSize: { xs: "0.7rem", sm: "0.9em" }}}>EVENTS</Typography> </Button>
+            <Button color="inherit" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" }, '&:hover': { color: 'orange' } }}><InfoIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" },fontSize: { xs: "0.7rem", sm: "0.9rem" } }}>ABOUT</Typography></Button>
 
           </Box>
 
