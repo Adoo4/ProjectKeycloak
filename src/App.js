@@ -76,6 +76,7 @@ function App() {
             justifyContent: "center",
             alignItems: "center",
             gap: "1rem",
+            height:"100lvh"
           }}
         >
 
