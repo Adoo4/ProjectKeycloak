@@ -14,16 +14,16 @@ import PrivateRoute from './Components/PrivateRoute';
 
 
 function App() {
-  // Check if the user has already seen the loading screen in this session
+ 
   const [loading, setLoading] = useState(!sessionStorage.getItem('hasLoadedBefore'));
   const [progress, setProgress] = useState(10);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const imageUrl = 'https://i.postimg.cc/hjnXtfPJ/Towers.png';
 
-  let [accessToken, setAccessToken] = useState(null);
-  let [refreshToken, setRefreshToken] = useState("");
-  let [loginFailed, setLoginFailed] = useState(false);
-  let [user, setUser] = useState(null);
+  const[accessToken, setAccessToken] = useState(null);
+  const[refreshToken, setRefreshToken] = useState("");
+  const[loginFailed, setLoginFailed] = useState(false);
+  const[user, setUser] = useState(null);
 
   useEffect(() => {
     const img = new Image();
@@ -40,7 +40,7 @@ function App() {
     if (isImageLoaded) {
       const timer = setTimeout(() => {
         setLoading(false);
-        sessionStorage.setItem('hasLoadedBefore', 'true'); // Set flag in sessionStorage
+        sessionStorage.setItem('hasLoadedBefore', 'true'); 
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -93,9 +93,9 @@ function App() {
           <Box sx={{ width: '100%' }}>
             <LinearProgress
               sx={{
-                backgroundColor: "black",       // Background color of the progress track
+                backgroundColor: "black",       
                 '& .MuiLinearProgress-bar': {
-                  backgroundColor: "orange"         // Color of the progress bar
+                  backgroundColor: "orange"         
                 }
               }}
             />

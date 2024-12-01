@@ -2,16 +2,16 @@
 body {height:100lvh; width:100%; background: black; display: flex; flex-direction: column; justify-content: stretch; overflow-x: hidden;  }
 body.loading {
   overflow: hidden;
-  background-color: black; /* Matches splash screen */
+  background-color: black; 
 }
 
 .content {height:100lvh}
 
 
 .App {
-  height: 110lvh; /* Full viewport height */
+  height: 110lvh; 
   width:100%;
-  display: flex; /* Use flexbox for layout */
+  display: flex;
   flex-direction: column; 
   scroll-behavior: smooth;
   

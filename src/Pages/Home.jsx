@@ -3,11 +3,8 @@ import Box from '@mui/material/Box';
 import { Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Stack from '@mui/material/Stack';
 
-let Home = ({isImageLoaded, accessToken, loginFailed}) => {
+const Home = ({isImageLoaded, accessToken, loginFailed}) => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [counter, setCounter] = useState(0);
@@ -17,52 +14,52 @@ let Home = ({isImageLoaded, accessToken, loginFailed}) => {
     useEffect(() => {
       const hasAnimationPlayed = sessionStorage.getItem('hasAnimationPlayed');
     
-      // Declare intervalId variables outside the timeout
+    
       let intervalId1, intervalId2;
     
       const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     
       if (!hasAnimationPlayed) {
-        // Set the timeout to start the animations after 200ms
+        
         const timeoutId = setTimeout(async () => {
-          // Start counter animations after timeout
+         
           intervalId1 = setInterval(() => {
             setCounter((prev) => {
               if (prev >= 51932) {
-                clearInterval(intervalId1); // Stop interval when target is reached
-                return 51932; // Ensure it stops exactly at target value
+                clearInterval(intervalId1); 
+                return 51932; 
               }
-              return prev + 481; // Increment by 481 each interval
+              return prev + 481; 
             });
-          }, 20); // Adjust interval time for smoothness
+          }, 20); 
     
           intervalId2 = setInterval(() => {
             setCounter2((prev) => {
               if (prev >= 16) {
-                clearInterval(intervalId2); // Stop interval when target is reached
-                return 16; // Ensure it stops exactly at target value
+                clearInterval(intervalId2); 
+                return 16; 
               }
-              return prev + 1; // Increment by 1 each interval
+              return prev + 1; 
             });
-          }, 100); // Adjust interval time for smoothness
+          }, 100); 
     
-          // Delay before showing the elements
+       
           setShow(true);
-          await delay(500); // Wait for 500ms before showing the second element
+          await delay(500); // 0.5 sekundi
           setShow2(true);
     
-          // Set session storage flag to mark animation played
+         
           sessionStorage.setItem('hasAnimationPlayed', 'true');
         }, 200);
     
-        // Cleanup function to clear all time-based functions on component unmount
+     
         return () => {
           clearTimeout(timeoutId);
           clearInterval(intervalId1);
           clearInterval(intervalId2);
         };
       } else {
-        // If animation has already played, directly set final values
+      
         setShow(true);
         setShow2(true);
         setCounter(51932);
@@ -116,7 +113,7 @@ let Home = ({isImageLoaded, accessToken, loginFailed}) => {
                     <Box
                         sx={{
                             position: 'relative',
-                            transition: 'transform 2s ease',
+                            transition: 'transform 1.5s linear',
                             transform: show ? 'translateX(0px)' : 'translateX(-1000px)'
                         }}
                     >

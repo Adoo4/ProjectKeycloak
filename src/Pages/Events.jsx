@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
@@ -10,22 +9,15 @@ import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid2';
-import Paper from '@mui/material/Paper';
-import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import AlertTitle from '@mui/material/AlertTitle';
 import axios from 'axios'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
-import zIndex from '@mui/material/styles/zIndex';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -36,7 +28,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import Skeleton from '@mui/material/Skeleton';
 import Badge from '@mui/material/Badge';
-import MailIcon from '@mui/icons-material/Mail';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Chip from '@mui/material/Chip';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -46,15 +37,14 @@ import SportsFootballIcon from '@mui/icons-material/SportsFootball';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import { ShoppingBag } from '@mui/icons-material';
 
 
 
 
 
-let Events = ({ accessToken, user }) => {
-    let [data, setData] = useState([])
-    let [loading, setloading] = useState(true)
+const Events = ({ accessToken, user }) => {
+    const [data, setData] = useState([])
+    const [loading, setloading] = useState(true)
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [open3, setOpen3] = useState(false);
@@ -65,23 +55,23 @@ let Events = ({ accessToken, user }) => {
     const handleOpen3 = () => setOpen3(true);
     const handleClose3 = () => setOpen(false);
     const [value, setValue] = useState(null);
-    let [postData, setPostData] = useState({
+    const [postData, setPostData] = useState({
         eventTitle: "",
         eventDescription: "",
         eventLocation: "",
         eventDate: ""
 
     })
-    let [selectedEvent, setSelectedEvent] = useState(null)
+    const [selectedEvent, setSelectedEvent] = useState(null)
 
-    let [editEvent, setEditEvent] = useState({
+    const [editEvent, setEditEvent] = useState({
         eventTitle: "",
         eventDescription: "",
         eventLocation: "",
         eventDate: ""
     })
 
-    let [edit, setEdit] = useState({
+    const [edit, setEdit] = useState({
         eventTitle: "",
         eventDescription: "",
         eventLocation: "",
@@ -93,15 +83,15 @@ let Events = ({ accessToken, user }) => {
         'Content-Type': 'application/json'
     };
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     useEffect(() => {
-        let fetchData = async () => {
+        const fetchData = async () => {
             console.log(typeof accessToken)
             try {
 
-                let response = await axios.get("/api/events/all");
+                const response = await axios.get("/api/events/all");
 
-                // Process response
+              
                 if (response.data.length) {
                     setData([...response.data]);
                     console.log("RESPONSE:", response.data);
@@ -167,7 +157,7 @@ let Events = ({ accessToken, user }) => {
                 styleOverrides: {
                     root: {
                         '& .MuiInputLabel-root': {
-                            fontSize: '14px', // Set label font size globally
+                            fontSize: '14px', 
                         },
                     },
                 },
@@ -180,14 +170,14 @@ let Events = ({ accessToken, user }) => {
             MuiSkeleton: {
                 styleOverrides: {
                     root: {
-                        backgroundColor: "lightgray", // Custom background color for all Skeletons
-                        borderRadius: "8px", // Add rounded corners
+                        backgroundColor: "lightgray", 
+                        borderRadius: "8px",
                     },
                     rectangular: {
-                        backgroundColor: "#3e3e40", // Specific color for rectangular Skeletons
+                        backgroundColor: "#3e3e40",
                     },
                     text: {
-                        backgroundColor: "#3e3e40", // Specific color for text Skeletons
+                        backgroundColor: "#3e3e40", 
                     },
                 },
             },
@@ -198,11 +188,11 @@ let Events = ({ accessToken, user }) => {
 
 
 
-    let addNewEvent = async () => {
+    const addNewEvent = async () => {
         try {
 
-            console.log("Post Data: ", postData); // Log to verify the data
-            let response = await axios.post("/api/events/create", postData, { headers })
+            console.log("Post Data: ", postData); 
+            const response = await axios.post("/api/events/create", postData, { headers })
             if (response && response.data) {
                 setData([...data, response.data]);
             }
@@ -221,11 +211,11 @@ let Events = ({ accessToken, user }) => {
         }
     }
 
-    let deleteEvent = async (eventId) => {
+    const deleteEvent = async (eventId) => {
         try {
-            let id = eventId;
+            const id = eventId;
             console.log("ID:", id)
-            let response = await axios.delete(`/api/events/${eventId}`, { headers });
+            const response = await axios.delete(`/api/events/${eventId}`, { headers });
             if (response && response.data) {
                 setData(data.filter((e, i) => eventId !== e.eventId))
 
@@ -245,41 +235,41 @@ let Events = ({ accessToken, user }) => {
 
     }
 
-    let itemToEdit = (e) => {
+    const itemToEdit = (e) => {
 
-        let title = e.eventTitle;
-        let location = e.eventLocation; // Corrected here
-        let description = e.eventDescription; // Corrected here
-        let date = dayjs(e.eventDate);
+        const title = e.eventTitle;
+        const location = e.eventLocation; 
+        const description = e.eventDescription; 
+        const date = dayjs(e.eventDate);
 
         console.log(date)
 
         setEditEvent({
             eventId: e.eventId,
             eventTitle: title,
-            eventLocation: location,  // Corrected
-            eventDescription: description, // Corrected
+            eventLocation: location,  
+            eventDescription: description, 
             eventDate: date
         });
     };
 
-    let changeEvent = async () => {
-        let id = editEvent.eventId;
+    const changeEvent = async () => {
+        const id = editEvent.eventId;
         const payload = {
-            eventTitle: edit.eventTitle || editEvent.eventTitle, // Fallback to the current title if not edited
+            eventTitle: edit.eventTitle || editEvent.eventTitle, 
             eventDescription: edit.eventDescription || editEvent.eventDescription,
             eventLocation: edit.eventLocation || editEvent.eventLocation,
-            eventDate: edit.eventDate || editEvent.eventDate, // Ensure date defaults to the existing one
+            eventDate: edit.eventDate || editEvent.eventDate, 
         };
 
 
         try {
             console.log(id)
-            let response = await axios.put(`/api/events/${id}`, payload, { headers })
+            const response = await axios.put(`/api/events/${id}`, payload, { headers })
             console.log("SUCCESS: ", response.data)
             console.log("payload: ", payload)
             if (response && response.data) {
-                //let convertedData = {eventTitle: payload}
+                //const convertedData = {eventTitle: payload}
                 console.log(payload)
                 console.log("data:",data)
                 setData(data.map((e, i) => e.eventId === id ? { ...response.data, eventId: id } : e))
@@ -304,52 +294,52 @@ let Events = ({ accessToken, user }) => {
         {
             city: 'Tokyo',
             country: 'Japan',
-            imageUrl: 'https://media.istockphoto.com/id/1692368430/photo/aerial-coit-tower-in-late-afternoon-with-downtown-san-francisco-skyscrapers-and-distant-bridge.jpg?s=2048x2048&w=is&k=20&c=V78ykggHv3YFdYb3L5Y4o48xSHkgrUF0Xs4hq3TWzK4=' // Tokyo skyline
+            imageUrl: 'https://media.istockphoto.com/id/1692368430/photo/aerial-coit-tower-in-late-afternoon-with-downtown-san-francisco-skyscrapers-and-distant-bridge.jpg?s=2048x2048&w=is&k=20&c=V78ykggHv3YFdYb3L5Y4o48xSHkgrUF0Xs4hq3TWzK4=' 
         },
         {
             city: 'New York City',
             country: 'USA',
-            imageUrl: 'https://fullsuitcase.com/wp-content/uploads/2022/05/One-day-in-New-York-USA-NYC-day-trip-itinerary-735x490.jpg.webp' // NYC skyline panorama
+            imageUrl: 'https://fullsuitcase.com/wp-content/uploads/2022/05/One-day-in-New-York-USA-NYC-day-trip-itinerary-735x490.jpg.webp' 
         },
         {
             city: 'Beijing',
             country: 'China',
-            imageUrl: 'https://media.istockphoto.com/id/601158224/photo/aerial-view-of-a-downtown-la-at-sunset.jpg?s=612x612&w=0&k=20&c=V36E4qOGijXZzhlLYqWgw0zoGCtD7Cv4WKDq6SwWG5U=' // Beijing cityscape
+            imageUrl: 'https://media.istockphoto.com/id/601158224/photo/aerial-view-of-a-downtown-la-at-sunset.jpg?s=612x612&w=0&k=20&c=V36E4qOGijXZzhlLYqWgw0zoGCtD7Cv4WKDq6SwWG5U=' 
         },
         {
             city: 'Moscow',
             country: 'Russia',
-            imageUrl: 'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2hpY2Fnb3xlbnwwfHwwfHx8MA%3D%3D' // Moscow city view
+            imageUrl: 'https://images.unsplash.com/photo-1494522855154-9297ac14b55f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2hpY2Fnb3xlbnwwfHwwfHx8MA%3D%3D' 
         },
         {
             city: 'Paris',
             country: 'France',
-            imageUrl: 'https://www.agoda.com/wp-content/uploads/2024/05/Featured-image-Austin-TX-USA-1244x700.jpg' // Paris city panorama
+            imageUrl: 'https://www.agoda.com/wp-content/uploads/2024/05/Featured-image-Austin-TX-USA-1244x700.jpg' 
         },
         {
             city: 'London',
             country: 'United Kingdom',
-            imageUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHRva3lvfGVufDB8fDB8fHww' // London city view
+            imageUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHRva3lvfGVufDB8fDB8fHww' 
         },
         {
             city: 'Berlin',
             country: 'Germany',
-            imageUrl: 'https://content.paulreiffer.com/wp-content/uploads/2023/03/Golden-Blue-Hour-City-Downtown-Brickell-Town-Center-Rooftop-Night-Cityscape-Miami-Florida-Fine-Art-Wall-Decor-Paul-Reiffer-Professional-Landscape-Photographer-Phase-One.jpg' // Berlin skyline
+            imageUrl: 'https://content.paulreiffer.com/wp-content/uploads/2023/03/Golden-Blue-Hour-City-Downtown-Brickell-Town-Center-Rooftop-Night-Cityscape-Miami-Florida-Fine-Art-Wall-Decor-Paul-Reiffer-Professional-Landscape-Photographer-Phase-One.jpg' 
         },
         {
             city: 'Delhi',
             country: 'India',
-            imageUrl: 'https://content.paulreiffer.com/wp-content/uploads/2015/06/beijing-city-skyline-park-hyatt-china-summit-wing-night-cityscape-paul-reiffer-china.jpg' // Delhi city view
+            imageUrl: 'https://content.paulreiffer.com/wp-content/uploads/2015/06/beijing-city-skyline-park-hyatt-china-summit-wing-night-cityscape-paul-reiffer-china.jpg' 
         },
         {
             city: 'Rio de Janeiro',
             country: 'Brazil',
-            imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' // Rio de Janeiro panoramic view
+            imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' 
         },
         {
             city: 'Rio de Janeiro',
             country: 'Brazil',
-            imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' // Rio de Janeiro panoramic view
+            imageUrl: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg?cs=srgb&dl=pexels-dominikagregus-672532.jpg&fm=jpg' 
         }
     ];
     //rezervna slika
@@ -361,7 +351,7 @@ let Events = ({ accessToken, user }) => {
     return (
         <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", width: "100%", backgroundColor: "#2c2c2c", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "2rem" }} >
 
-            {accessToken ? <Box sx={{ '& > :not(style)': { m: 1 }, position: "fixed", bottom: "5rem", right: "1rem", zIndex: "999", width: "50%", minWidth: "220px", display: "flex", justifyContent: "space-around", alignItems: "center", maxWidth: "300px", background: "#2c2c2c", borderRadius: "30px 0px 0px 30px", borderLeft: "20px solid orange" }}>
+            {user && user?.resource_access?.["react-client"]?.roles[0] === "ADMIN" ? <Box sx={{ '& > :not(style)': { m: 1 }, position: "fixed", bottom: "5rem", right: "1rem", zIndex: "999", width: "50%", minWidth: "220px", display: "flex", justifyContent: "space-around", alignItems: "center", maxWidth: "300px", background: "#2c2c2c", borderRadius: "30px 0px 0px 30px", borderLeft: "20px solid orange" }}>
                 <Typography sx={{ fontWeight: "bold", color: "white", fontSize: { xs: "0.7rem", sm: "0.8rem" } }}>ADD NEW EVENT</Typography>
                 <Fab size="large" sx={{ backgroundColor: "orange" }} aria-label="add" onClick={handleOpen}>
                     <AddIcon />
@@ -372,7 +362,7 @@ let Events = ({ accessToken, user }) => {
 
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, minHeight: { xs: "80lvh", lg: "50lvh" }, justifyContent: "center", alignItems: "center", width: "100%", minWidth: "350px", padding: "2rem", borderRadius: "1rem" }}>
+                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, minHeight: { xs: "100lvh", lg: "50lvh" }, justifyContent: "center", alignItems: "center", width: "100%", minWidth: "350px", padding: "2rem", borderRadius: "1rem" }}>
 
                     <img
                         src="https://i.postimg.cc/L61Ms5qq/edited2222-removebg.png"
@@ -382,7 +372,7 @@ let Events = ({ accessToken, user }) => {
                             minWidth: "250px",
                             width: "100%",
 
-                            //mixBlendMode: "color-burn", // Blend with orange background
+                            //mixBlendMode: "color-burn", 
                         }}
                         alt=""
                     />
@@ -403,7 +393,6 @@ let Events = ({ accessToken, user }) => {
                 </Box>
                 {loading ? (
 
-                    // Render skeletons while loading
                     Array.from({ length: 6 }).map((_, index) => (
                         <ThemeProvider theme={themeSkeleton}>
                             <Grid key={index} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
@@ -418,7 +407,7 @@ let Events = ({ accessToken, user }) => {
                         </ThemeProvider>
                     ))
                 ) : (
-                    // Render actual data
+                  
                     data?.map((e, index) => (
                         <Grid key={e.eventId} size={{ xs: 12, sm: 4, md: 4 }} sx={{ padding: { xs: "0.5rem", sm: "1rem" } }}>
                             <Card sx={{ minWidth: 250, display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "450px", boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", backgroundColor: "#595959", color: "lightgray" }} >
@@ -540,10 +529,10 @@ let Events = ({ accessToken, user }) => {
                     </Typography>
                     <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: "1.3rem" }}>
                         <TextField id="standard-basic" label="Title" variant="standard" sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Title
-                            style: { fontSize: '14px' }, // Label font size
+                            style: { fontSize: '14px' }, 
                         }} onChange={(e) => { setPostData({ ...postData, eventTitle: e.target.value }); console.log(postData) }} />
                         <TextField id="standard-basic" label="Location" variant="standard" sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Location
-                            style: { fontSize: '14px' }, // Label font size
+                            style: { fontSize: '14px' }, 
 
                         }} onChange={(e) => { setPostData({ ...postData, eventLocation: e.target.value }); console.log(postData) }} />
                         <ThemeProvider theme={theme}>
@@ -552,19 +541,16 @@ let Events = ({ accessToken, user }) => {
                                     label="Date"
                                     value={value}
                                     onChange={(newValue) => {
-                                        setValue(newValue); // Update local state for the DatePicker
+                                        setValue(newValue); 
 
                                         if (newValue) {
-                                            // Format the date correctly
+                                           
                                             const formattedDate = `${newValue.$y}-${String(newValue.$M + 1).padStart(2, '0')}-${String(newValue.$D).padStart(2, '0')}`;
-                                            // Update the postData state
                                             setPostData((prevData) => ({ ...prevData, eventDate: formattedDate }));
-
-                                            console.log("Formatted Date:", formattedDate); // Log the formatted date
+                                            console.log("Formatted Date:", formattedDate); 
                                             console.log(postData)
                                         } else {
                                             console.log("No date selected");
-                                            // Optionally clear the date field in postData
                                             setPostData((prevData) => ({ ...prevData, eventDate: "" }));
                                         }
                                     }}
@@ -579,7 +565,7 @@ let Events = ({ accessToken, user }) => {
                             rows={4}
                             placeholder="Describe your event"
                             InputLabelProps={{
-                                style: { fontSize: '14px' }, // Label font size
+                                style: { fontSize: '14px' }, 
                             }}
                             onChange={(e) => { setPostData({ ...postData, eventDescription: e.target.value }); console.log(postData) }}
                         />
@@ -629,10 +615,10 @@ let Events = ({ accessToken, user }) => {
                     </Typography>
                     <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: "1.3rem" }}>
                         <TextField id="standard-basic" label="Title" variant="standard" defaultValue={editEvent?.eventTitle || ""} sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Title
-                            style: { fontSize: '14px' }, // Label font size
+                            style: { fontSize: '14px' }, 
                         }} onChange={(e) => { setEdit({ ...edit, eventTitle: e.target.value || editEvent.eventTitle }); }} />
                         <TextField id="standard-basic" label="Location" variant="standard" defaultValue={editEvent.eventLocation} sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Location
-                            style: { fontSize: '14px' }, // Label font size
+                            style: { fontSize: '14px' }, 
 
                         }} onChange={(e) => { setEdit({ ...edit, eventLocation: e.target.value || editEvent.eventLocation }); }} />
                         <ThemeProvider theme={theme}>
@@ -670,7 +656,7 @@ let Events = ({ accessToken, user }) => {
                             rows={4}
                             placeholder="Describe your event"
                             InputLabelProps={{
-                                style: { fontSize: '14px' }, // Label font size
+                                style: { fontSize: '14px' }, 
                             }}
                             onChange={(e) => { setEdit({ ...edit, eventDescription: e.target.value || editEvent.eventDescription }); console.log(edit) }}
                         />
@@ -702,30 +688,7 @@ let Events = ({ accessToken, user }) => {
 
 export default Events
 
-/*
-Frontend Workaround
-Verify Preflight Handling:
 
-The preflight (OPTIONS) request is sent before your actual GET request.
-While you can't modify preflight requests, ensure the backend server responds correctly to it.
-Temporary Frontend Proxy (For Development):
-
-If you don't control the backend server and are stuck, set up a proxy:
-In your React package.json:
-json
-Copy code
-"proxy": "http://avajava.pro:8888"
-Change your Axios request to remove the domain, e.g.:
-javascript
-Copy code
-let response = await axios.get("/api/events/all", {
-    headers: { Authorization: `Bearer ${accessToken}` }
-});
-This will make requests appear as if they are coming from the same origin and bypass the preflight.
-
-
-
-*/
 
 
 
