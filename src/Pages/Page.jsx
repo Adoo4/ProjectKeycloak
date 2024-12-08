@@ -19,6 +19,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { motion } from "framer-motion";
 
 
 
@@ -59,6 +60,13 @@ const Page = ({ accessToken, user }) => {
     fetchitem();
 
   }, [accessToken, eventId])
+
+  const pageVariants = {
+    initial: { x: "200%", opacity: 1 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: "100%", opacity: 0 },
+  };
+  
 
   useEffect(() => {
     const fetchreservations = async () => {
@@ -126,6 +134,13 @@ const Page = ({ accessToken, user }) => {
 
 
     return (
+      <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", duration: 0.5, ease: "easeIn" }}
+    >
       <Box sx={{ padding: "10lvh 1rem 10lvh 1rem", width: "100%", backgroundColor: "#2c2c2c", display: "flex", flexDirection: { xs: "column" }, justifyContent: "center", alignItems: "center", gap: "2rem" }} >
 
         <Skeleton variant="rectangular" width={"100%"} height={"100lvh"} />
@@ -150,6 +165,7 @@ const Page = ({ accessToken, user }) => {
         </Box>
 
       </Box>
+      </motion.div>
 
     )
   }
@@ -328,9 +344,8 @@ const Page = ({ accessToken, user }) => {
 
 
       </Box>}</>
+      
   )
 }
 
 export default Page
-
-

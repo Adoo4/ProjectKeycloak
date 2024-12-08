@@ -37,6 +37,20 @@ import SportsFootballIcon from '@mui/icons-material/SportsFootball';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import { motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+
+const pageVariants = {
+  initial: { x: "200%", opacity: 1 },
+  animate: { x: 0, opacity: 1 },
+  exit: { x: "100%", opacity: 0 },
+};
+
+const modalVariants = {
+    hidden: { y: "-200%", opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.3, ease: "easeInOut" } },
+    exit: { y: "-200%", opacity: 0, transition: { duration: 0.1, ease: "easeOut" } },
+  };
 
 
 
@@ -48,7 +62,7 @@ const Events = ({ accessToken, user }) => {
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [open3, setOpen3] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () =>{ setOpen(true);}
     const handleClose = () => setOpen(false);
     const handleOpen2 = () => setOpen2(true);
     const handleClose2 = () => setOpen2(false);
@@ -349,6 +363,13 @@ const Events = ({ accessToken, user }) => {
 
 
     return (
+        <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ type: "tween", stiffness: 100 }}
+    >
         <Box sx={{ flexGrow: 1, padding: "10lvh 1rem 10lvh 1rem", width: "100%", backgroundColor: "#2c2c2c", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "2rem" }} >
 
             {user && user?.resource_access?.["react-client"]?.roles[0] === "ADMIN" ? <Box sx={{ '& > :not(style)': { m: 1 }, position: "fixed", bottom: "5rem", right: "1rem", zIndex: "999", width: "50%", minWidth: "220px", display: "flex", justifyContent: "space-around", alignItems: "center", maxWidth: "300px", background: "#2c2c2c", borderRadius: "30px 0px 0px 30px", borderLeft: "20px solid orange" }}>
@@ -362,30 +383,19 @@ const Events = ({ accessToken, user }) => {
 
 
             <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, minHeight: { xs: "100lvh", lg: "50lvh" }, justifyContent: "center", alignItems: "center", width: "100%", minWidth: "350px", padding: "2rem", borderRadius: "1rem" }}>
+                <Box sx={{ backgroundColor: "orange", display: "flex", flexDirection: { xs: "column", md: "row" }, height: { xs: "25lvh", lg: "25lvh" }, justifyContent: "center", alignItems: "center", width: "100%", minWidth: "350px", padding: "2rem", borderRadius: "1rem" }}>
 
-                    <img
-                        src="https://i.postimg.cc/L61Ms5qq/edited2222-removebg.png"
-                        style={{
-                            maxWidth: "600px",
-                            opacity: 1,
-                            minWidth: "250px",
-                            width: "100%",
-
-                            //mixBlendMode: "color-burn", 
-                        }}
-                        alt=""
-                    />
+                
 
                     <Box sx={{display:"flex", flexDirection:"column"}}>
-                        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", color: "white", fontSize: { lg: "5rem" } }}>Choose Your Perfect Event</Typography>
-                        <Typography variant="subtitle1" component="p" sx={{ color: "#2c2c2c", fontSize: { lg: "2rem" } }}>Discover experiences tailored just for you</Typography>
+                        <Typography variant="h4" component="h1" sx={{ fontWeight: "bold", color: "white", fontSize: {xs:"1rem", lg: "3rem" } }}>Choose Your Perfect Event</Typography>
+                        <Typography variant="subtitle1" component="p" sx={{ color: "#2c2c2c", fontSize: { lg: "1.5rem" } }}>Discover experiences tailored just for you</Typography>
                         <Box sx={{  display: 'flex', gap: '1rem', color:"#2c2c2c", mt:"1rem", alignSelf:"flex-end" }}>
-                            <MusicNoteIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
-                            <SportsFootballIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
-                            <LocalMallIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
-                            <TheaterComedyIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
-                            <SportsEsportsIcon sx={{ fontSize: {xs:"2rem", md:'3rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <MusicNoteIcon sx={{ fontSize: {xs:"2rem", md:'2.5rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <SportsFootballIcon sx={{ fontSize: {xs:"2rem", md:'2.5rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <LocalMallIcon sx={{ fontSize: {xs:"2rem", md:'2.5rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <TheaterComedyIcon sx={{ fontSize: {xs:"2rem", md:'2.5rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
+                            <SportsEsportsIcon sx={{ fontSize: {xs:"2rem", md:'2.5rem'}, border:"2px solid #2c2c2c", padding :"0.25rem", borderRadius:"10px" }} />
                         </Box>
                     </Box>
 
@@ -515,78 +525,114 @@ const Events = ({ accessToken, user }) => {
 
             </Grid>
 
-
+            
+            <AnimatePresence>
+      {open && (
+        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title">
+          <motion.div
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100lvh",
+            }}
+          >
+            <Box sx={style}>
+              <Button sx={{ position: "absolute", right: "0rem", top: "0.2rem" }} onClick={handleClose}>
+                X
+              </Button>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                New Event
+              </Typography>
+              <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: "1.3rem" }}>
+                <TextField
+                  label="Title"
+                  variant="standard"
+                  sx={{ width: "100%", maxWidth: "400px" }}
+                  InputLabelProps={{
+                    style: { fontSize: "14px" },
+                  }}
+                  onChange={(e) => setPostData({ ...postData, eventTitle: e.target.value })}
+                />
+                <TextField
+                  label="Location"
+                  variant="standard"
+                  sx={{ width: "100%", maxWidth: "400px" }}
+                  InputLabelProps={{
+                    style: { fontSize: "14px" },
+                  }}
+                  onChange={(e) => setPostData({ ...postData, eventLocation: e.target.value })}
+                />
+                <ThemeProvider theme={theme}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Date"
+                      value={value}
+                      onChange={(newValue) => {
+                        setValue(newValue);
+                        if (newValue) {
+                          const formattedDate = `${newValue.$y}-${String(newValue.$M + 1).padStart(2, "0")}-${String(
+                            newValue.$D
+                          ).padStart(2, "0")}`;
+                          setPostData((prevData) => ({ ...prevData, eventDate: formattedDate }));
+                        }
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </ThemeProvider>
+                <TextField
+                  label="Description"
+                  multiline
+                  rows={4}
+                  placeholder="Describe your event"
+                  InputLabelProps={{
+                    style: { fontSize: "14px" },
+                  }}
+                  onChange={(e) => setPostData({ ...postData, eventDescription: e.target.value })}
+                />
+              </Box>
+              <Box sx={{ alignSelf: "flex-end" }}>
+                <Button onClick={handleClose}>CANCEL</Button>
+                <Button
+                  onClick={() => {
+                    addNewEvent();
+                    handleClose();
+                  }}
+                >
+                  ADD
+                </Button>
+              </Box>
+            </Box>
+          </motion.div>
+        </Modal>
+      )}
+    
+            
             <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <Button sx={{ position: "absolute", right: "0rem", top: "0.2rem" }} onClick={() => setOpen(false)}><CloseIcon /></Button>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        New Event
-                    </Typography>
-                    <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: "1.3rem" }}>
-                        <TextField id="standard-basic" label="Title" variant="standard" sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Title
-                            style: { fontSize: '14px' }, 
-                        }} onChange={(e) => { setPostData({ ...postData, eventTitle: e.target.value }); console.log(postData) }} />
-                        <TextField id="standard-basic" label="Location" variant="standard" sx={{ width: "100%", maxWidth: "400px" }} InputLabelProps={{ //Location
-                            style: { fontSize: '14px' }, 
-
-                        }} onChange={(e) => { setPostData({ ...postData, eventLocation: e.target.value }); console.log(postData) }} />
-                        <ThemeProvider theme={theme}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker
-                                    label="Date"
-                                    value={value}
-                                    onChange={(newValue) => {
-                                        setValue(newValue); 
-
-                                        if (newValue) {
-                                           
-                                            const formattedDate = `${newValue.$y}-${String(newValue.$M + 1).padStart(2, '0')}-${String(newValue.$D).padStart(2, '0')}`;
-                                            setPostData((prevData) => ({ ...prevData, eventDate: formattedDate }));
-                                            console.log("Formatted Date:", formattedDate); 
-                                            console.log(postData)
-                                        } else {
-                                            console.log("No date selected");
-                                            setPostData((prevData) => ({ ...prevData, eventDate: "" }));
-                                        }
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </ThemeProvider>
-                        <TextField
-                            id="outlined-multiline-static"    //Description
-                            label="Description"
-                            multiline
-                            rows={4}
-                            placeholder="Describe your event"
-                            InputLabelProps={{
-                                style: { fontSize: '14px' }, 
-                            }}
-                            onChange={(e) => { setPostData({ ...postData, eventDescription: e.target.value }); console.log(postData) }}
-                        />
-
-
-                    </Box>
-
-                    <Box sx={{ alignSelf: "flex-end" }}>
-                        <Button onClick={() => setOpen(false)}>CANCEL</Button>
-                        <Button  onClick={() =>{ addNewEvent(); setOpen(false)}}>ADD</Button>
-
-                    </Box>
-                </Box>
-            </Modal>
-            <Modal
+          
 
                 open={open2}
                 onClose={handleClose2}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+                  <motion.div
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100lvh",
+            }}
+          >
                 <Box sx={style2}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "1rem" }}>
                         <WarningAmberIcon /> WARNING
@@ -601,6 +647,7 @@ const Events = ({ accessToken, user }) => {
                     </Box>
 
                 </Box>
+                </motion.div>
             </Modal>
             <Modal
                 open={open3}
@@ -608,6 +655,18 @@ const Events = ({ accessToken, user }) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+                <motion.div
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100lvh",
+            }}
+          >
                 <Box sx={style}>
                     <Button sx={{ position: "absolute", right: "0rem", top: "0.2rem" }} onClick={() => setOpen3(false)}><CloseIcon /></Button>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -677,9 +736,11 @@ const Events = ({ accessToken, user }) => {
 
                     </Box>
                 </Box>
+                </motion.div>
             </Modal>
-
+            </AnimatePresence>
         </Box>
+        </motion.div>
     )
 
 

@@ -15,12 +15,13 @@ import InfoIcon from '@mui/icons-material/Info';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import { Link } from "react-router-dom";
 
 
 
-const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setLoginFailed,user, setUser }) => {
+const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setLoginFailed,user, setUser, isAuthenticated, setIsAuthenticated }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+ 
   
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
@@ -42,70 +43,26 @@ const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, se
   }, []);
 
   useEffect(() => {
-    const authenticate = async () => {
+    
+  
+    const intervalId = setInterval(async () => {
       try {
-        const authenticated = await keycloak.init({
-          pkceMethod: "S256", onLoad: "check-sso"
-
-        });
-        console.log("Authenticated:", authenticated);
-        console.log("TOKEN:", keycloak.token);
-        console.log("Raw token:", keycloak.token); 
-          console.log("Keycloak token type:", typeof keycloak.token); 
-        const token = keycloak.token;
-
-        if (authenticated) {
-          if (token) {
-            const token = keycloak.token;
-            console.log("Keycloak token type:", typeof token); 
-            if (typeof token === "string") {
-              setAccessToken(token);
-            } else {
-              console.log("Token is not a string:", token);
-            }
-            console.log("Token received:", token);
-            const decoded = jwtDecode(token);
-            setUser(decoded);
-            //setUser(decoded.preferred_username);
-            console.log(decoded);
-
-          } else {
-            console.log("Failed to retrieve token.");
-
+        const refreshed = await keycloak.updateToken(30);
+        if (refreshed) {
+          const token = keycloak.token;
+          if (accessToken !== token) {
+            setAccessToken(token); // Update only if token has changed
           }
-          setIsAuthenticated(true);
-
-          console.log(token)
-          console.log(keycloak.refreshToken);
-          setRefreshToken(keycloak.refreshToken);
-
-          const intervalId = setInterval(async () => {
-            try {
-              const refreshed = await keycloak.updateToken(30);
-              if (refreshed) {
-                console.log("Refreshed token: ", refreshed)
-                const token = keycloak.token;
-                console.log("Keycloak token type:", typeof token); 
-                if (typeof token === "string") {
-                  setAccessToken(token);
-                } else {
-                  console.log("Token is not a string:", token);
-                }
-              }
-            } catch (error) {
-              console.error("Failed to refresh token", error);
-              handleLogout(); 
-            }
-          }, 1000 * 60); // 1 Minuta
-          return () => clearInterval(intervalId);
-        } else { setLoginFailed(true) }
-      } catch (error) { console.log("Keycloak initialization failed", error);
+        }
+      } catch (error) {
+        console.error("Failed to refresh token", error);
+        handleLogout();
       }
-    };
-
-    authenticate();
-  }, []);
-
+    }, 1000 * 60); // 1 minute
+  
+    return () => clearInterval(intervalId);
+  }, [accessToken, user]); // Add state as dependencies to limit updates
+  
 
 
   const handleLogout = async () => {
@@ -123,47 +80,180 @@ const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, se
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ backgroundColor: scrolled ? 'rgba(0,0,0,0.5)' : 'transparent', transition: 'background-color 0.3s ease' }} elevation={0} >
-        <Toolbar sx={{ gap: { xs: "0.6rem", sm: "1rem" }, display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, justifyContent: 'flex-start', alignItems: "center", gap: { xs: "0.5rem", sm: "1rem" }, fontSize: "3rem" }}>
-            <Button color="inherit" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" }, '&:hover': { color: 'orange' } }} onClick={() => navigate("/")}><HomeIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" } ,fontSize: { xs: "0.7rem", sm: "0.9rem" } }}>HOME</Typography>  </Button>
-            <Button color="inherit" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" }, '&:hover': { color: 'orange' } }} onClick={() => navigate("/events")}><EventIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" }, fontSize: { xs: "0.7rem", sm: "0.9em" }}}>EVENTS</Typography> </Button>
-            <Button color="inherit" sx={{ fontSize: { xs: "0.7rem", sm: "1rem" }, '&:hover': { color: 'orange' } }}><InfoIcon sx={{ display: { sm: "none" } }} /> <Typography sx={{ display: { xs: "none", sm: "flex" },fontSize: { xs: "0.7rem", sm: "0.9rem" } }}>ABOUT</Typography></Button>
+    
 
-          </Box>
+<Box sx={{ flexGrow: 1 }}>
+  <AppBar
+    position="fixed"
+    sx={{
+      backgroundColor: scrolled ? "rgba(0,0,0,0.5)" : "transparent",
+      transition: "background-color 0.3s ease",
+    }}
+    elevation={0}
+  >
+    <Toolbar
+      sx={{
+        gap: { xs: "0.6rem", sm: "1rem" },
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+      {/* Navigation Links */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: { xs: "flex", sm: "flex" },
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: { xs: "0.5rem", sm: "1rem" },
+          fontSize: "3rem",
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
+          <Button
+            color="inherit"
+            sx={{
+              fontSize: { xs: "0.7rem", sm: "1rem" },
+              "&:hover": { color: "orange" },
+            }}
+          >
+            <HomeIcon sx={{ display: { sm: "none" } }} />
+            <Typography
+              sx={{
+                display: { xs: "none", sm: "flex" },
+                fontSize: { xs: "0.7rem", sm: "0.9rem" },
+              }}
+            >
+              HOME
+            </Typography>
+          </Button>
+        </Link>
 
+        <Link
+          to="/events"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
+          <Button
+            color="inherit"
+            sx={{
+              fontSize: { xs: "0.7rem", sm: "1rem" },
+              "&:hover": { color: "orange" },
+            }}
+          >
+            <EventIcon sx={{ display: { sm: "none" } }} />
+            <Typography
+              sx={{
+                display: { xs: "none", sm: "flex" },
+                fontSize: { xs: "0.7rem", sm: "0.9em" },
+              }}
+            >
+              EVENTS
+            </Typography>
+          </Button>
+        </Link>
 
-          {isAuthenticated ? <Stack direction="row" spacing={1}>
-            <Chip avatar={<Avatar><PersonIcon sx={{ background: "white" }} /></Avatar>} label={user.preferred_username} color="warning" sx={{
-              display: { xs: "none", sm: "flex" }, backgroundColor: 'transparent',
-              color: 'orange',
-              '& .MuiChip-avatar': {
-                backgroundColor: 'lightgray',
+        <Link
+          to="/about"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
+          <Button
+            color="inherit"
+            sx={{
+              fontSize: { xs: "0.7rem", sm: "1rem" },
+              "&:hover": { color: "orange" },
+            }}
+          >
+            <InfoIcon sx={{ display: { sm: "none" } }} />
+            <Typography
+              sx={{
+                display: { xs: "none", sm: "flex" },
+                fontSize: { xs: "0.7rem", sm: "0.9rem" },
+              }}
+            >
+              ABOUT
+            </Typography>
+          </Button>
+        </Link>
+      </Box>
+
+      {/* Auth Buttons */}
+      {isAuthenticated ? (
+        <Stack direction="row" spacing={1}>
+          <Chip
+            avatar={<Avatar><PersonIcon sx={{ background: "white" }} /></Avatar>}
+            label={user.preferred_username}
+            color="warning"
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              backgroundColor: "transparent",
+              color: "orange",
+              "& .MuiChip-avatar": {
+                backgroundColor: "lightgray",
               },
-            }} />
+            }}
+          />
+        </Stack>
+      ) : null}
 
-          </Stack> : null}
+      <Box sx={{ display: "flex" }}>
+        {!isAuthenticated ? (
+          <Button
+            color="filled"
+            sx={{
+              display: "flex",
+              backgroundColor: "orange",
+              border: "1px solid transparent",
+              padding: "0.25rem 1.25rem",
+              gap: "1rem",
+              justifyContent: "center",
+              alignItems: "center",
+              "&:hover": {
+                color: "white",
+                background: "transparent",
+                border: "1px solid orange",
+              },
+            }}
+            onClick={() => keycloak.login()}
+          >
+            <Typography sx={{ fontSize: "0.7rem" }}>LOGIN</Typography>
+          </Button>
+        ) : (
+          <Button
+            color="outlined"
+            sx={{
+              display: "flex",
+              border: "1px solid white",
+              padding: "0.25rem 1.25rem",
+              gap: "1rem",
+              justifyContent: "center",
+              alignItems: "center",
+              "&:hover": {
+                color: "orange",
+                border: "1px solid orange",
+              },
+            }}
+            onClick={handleLogout}
+          >
+            <Typography sx={{ fontSize: "0.7rem" }}>LOGOUT</Typography>
+          </Button>
+        )}
+      </Box>
+    </Toolbar>
+  </AppBar>
+</Box>
 
-
-          <Box sx={{ display: "flex" }}>
-            {!isAuthenticated ? (
-              <Button color="filled" sx={{ display: "flex", backgroundColor: "orange", border: "1px solid transparent", padding: "0.25rem  1.25rem", gap: "1rem", justifyContent: "center", alignItems: "center", '&:hover': { color: 'white', background: "transparent", border: "1px solid orange" } }} onClick={() => keycloak.login()}>
-                <Typography sx={{ fontSize: "0.7rem" }}>LOGIN</Typography>
-
-              </Button>
-            ) : (
-              <Button color="outlined" sx={{ display: "flex", border: "1px solid white", padding: "0.25rem  1.25rem", gap: "1rem", justifyContent: "center", alignItems: "center", '&:hover': { color: 'orange', border: "1px solid orange" } }} onClick={handleLogout}>
-                <Typography sx={{ fontSize: "0.7rem" }}>LOGOUT</Typography>
-
-              </Button>
-            )}
-          </Box>
-        </Toolbar>
-
-      </AppBar>
-
-    </Box>
   );
 };
 

@@ -3,12 +3,23 @@ import Box from '@mui/material/Box';
 import { Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
+import { motion } from "framer-motion";
+
+const pageVariants = {
+  initial: { x: "-100vw", opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+  exit: { x: "100vw", opacity: 0 },
+  
+};
 
 const Home = ({isImageLoaded, accessToken, loginFailed}) => {
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
     const [counter, setCounter] = useState(0);
     const [counter2, setCounter2] = useState(0);
+
+
+   
     
 
     useEffect(() => {
@@ -45,7 +56,7 @@ const Home = ({isImageLoaded, accessToken, loginFailed}) => {
     
        
           setShow(true);
-          await delay(500); // 0.5 sekundi
+          await delay(1500); // 0.5 sekundi
           setShow2(true);
     
          
@@ -72,7 +83,16 @@ const Home = ({isImageLoaded, accessToken, loginFailed}) => {
     
   
     return (
-        <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
+      <motion.div
+      
+  variants={pageVariants}
+  initial="initial"
+  animate="animate"  
+  exit="exit"
+  transition={{ type: "tween", stiffness: 100 }}
+  style={{ height: "110lvh", width: "100%", overflow: "hidden" }}
+>
+        <Box sx={{ position: "relative", width: "100%", height: "100lvh" }}>
 
             <Box
                 sx={{
@@ -113,7 +133,7 @@ const Home = ({isImageLoaded, accessToken, loginFailed}) => {
                     <Box
                         sx={{
                             position: 'relative',
-                            transition: 'transform 1.5s linear',
+                            transition: 'transform 1.5s ease-in',
                             transform: show ? 'translateX(0px)' : 'translateX(-1000px)'
                         }}
                     >
@@ -136,6 +156,7 @@ const Home = ({isImageLoaded, accessToken, loginFailed}) => {
                 </Box>
             </Box>
         </Box>
+        </motion.div>
     );
 };
 
