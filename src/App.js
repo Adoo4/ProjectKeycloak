@@ -27,7 +27,8 @@ function App() {
   const[refreshToken, setRefreshToken] = useState("");
   const[loginFailed, setLoginFailed] = useState(false);
   const[user, setUser] = useState(null);
-  let token = useRef(null)
+  const accessTokenRef = useRef(null);
+
 
   useEffect(()=>{
 
@@ -41,17 +42,22 @@ function App() {
           const token = keycloak.token;
           if (token && typeof token === "string") {
             if (accessToken !== token) {
-              setAccessToken(token); // Update state only if token has changed
+             // setAccessToken(token); // Update state only if token has changed
+              console.log("render accessToken")
             }
             const decoded = jwtDecode(token);
             if (user !== decoded) {
-              setUser(decoded); // Update user only if it's different
+              //setUser(decoded); // Update user only if it's different
+              console.log("render User")
             }
-            setIsAuthenticated(true);
+           //setIsAuthenticated(true);
+            console.log("render setIsAuthenticated")
             setRefreshToken(keycloak.refreshToken);
+            console.log("render setRefreshToken")
+
           }
         } else {
-          setLoginFailed(true);
+         // setLoginFailed(true);
         }
       } catch (error) {
         console.error("Keycloak initialization failed", error);
@@ -70,44 +76,34 @@ function App() {
 
     
   )
-  const handleLogout = async () => {
-    try {
-      if (keycloak && keycloak.authenticated) {
-        await keycloak.logout();
-        setIsAuthenticated(false);
-        console.log("Logged out");
-      } else {
-        console.log("Logout is not initialized!");
-      }
-    } catch (error) {
-      console.log("Logout failed:", error.message);
-    }
-  };
-
+ 
 
   
 
   useEffect(() => {
+    if (!imageUrl) return; 
     const img = new Image();
     img.src = imageUrl;
-
+  
     img.onload = () => setIsImageLoaded(true);
     img.onerror = () => {
-      console.error('Background image failed to load');
+      console.error("Background image failed to load");
       setIsImageLoaded(false);
     };
   }, [imageUrl]);
 
+
   useEffect(() => {
-    if (isImageLoaded) {
-      const timer = setTimeout(() => {
-        setLoading(false);
-        sessionStorage.setItem('hasLoadedBefore', 'true');
-      }, 3000);
-  
-      return () => clearTimeout(timer);
-    }
-  }, [isImageLoaded]);
+  if (!isImageLoaded) return;
+
+  const timer = setTimeout(() => {
+    setLoading(false);
+    sessionStorage.setItem("hasLoadedBefore", "true");
+  }, 3000);
+
+  return () => clearTimeout(timer);
+}, [isImageLoaded]);
+
 
   function CircularProgressWithLabel(props) {
     return (
@@ -118,13 +114,13 @@ function App() {
   }
 
   useEffect(() => {
-    if (loading) {
-      const timer = setInterval(() => {
-        setProgress((prev) => (prev >= 100 ? 100 : prev + 1));
-      }, 33);
+    if (!loading) return;
   
-      return () => clearInterval(timer);
-    }
+    const timer = setInterval(() => {
+      setProgress((prev) => (prev >= 100 ? 100 : prev + 1));
+    }, 33);
+  
+    return () => clearInterval(timer);
   }, [loading]);
 
   return (
@@ -178,7 +174,7 @@ function App() {
           setUser={setUser}
           isAuthenticated={isAuthenticated}
           setIsAuthenticated={setIsAuthenticated}
-          handleLogout={handleLogout}
+         
         />
         <AnimatePresence mode="wait">
           <Routes >

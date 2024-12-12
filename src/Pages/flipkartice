@@ -1,0 +1,134 @@
+<Card 
+  sx={{
+    minWidth: 250,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    minHeight: "450px",
+    boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+    backgroundColor: "#595959",
+    color: "lightgray",
+    cursor: 'pointer',
+    position: 'relative',
+    perspective: '1000px', // Perspective for 3D effect
+    '&:hover .card-inner': {
+      transform: 'rotateY(180deg)', // Flip the card on hover
+    }
+  }}
+>
+  <div className="card-inner" style={{
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100%',
+    transition: 'transform 0.5s',
+    transformStyle: 'preserve-3d',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  }}>
+    {/* Front of the card */}
+    <div style={{
+      backfaceVisibility: 'hidden',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      flexGrow: 1, // Ensure content takes available space
+    }}>
+      <Stack spacing={4} direction="row" sx={{ color: 'action.active' }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", flexGrow: 1, padding: "0.75rem", gap: "1rem", background: "orange" }}>
+          <Typography sx={{ fontSize: "0.8rem", fontWeight: "bold" }}>PARTICIPANTS</Typography>
+          <Badge color="warning" badgeContent={1} sx={{ zIndex: 99 }}>
+            <BeenhereIcon fontSize="small" />
+          </Badge>
+        </Box>
+      </Stack>
+      <CardActionArea
+        onClick={() => { accessToken ? navigate(`/events/${e.eventId}`) : console.log("Access key missing, access denied") }}
+      >
+        <CardMedia
+          component="img"
+          height="250"
+          image={panoramaImages[3].imageUrl}
+          alt="Event card"
+        />
+        <CardContent sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <Typography gutterBottom variant="h6" component="div" sx={{ color: "#f2f2f2" }}>
+            {e.eventTitle}
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-around", background: "gray" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "0.15rem" }}>
+              <Typography variant="h7" component="div" sx={{ color: "darkgray", fontWeight: "bold" }}>
+                <Stack direction="row" spacing={1}>
+                  <Chip sx={{ background: "transparent" }}
+                    label={<span><LocationOnIcon style={{ marginRight: "0.3rem", verticalAlign: "middle", color: "orange" }} />{e.eventLocation}</span>}
+                  />
+                </Stack>
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "0.15rem" }}>
+              <Typography variant="h7" component="div" sx={{ color: "darkgray", fontWeight: "bold" }}>
+                <Stack direction="row" spacing={1}>
+                  <Chip sx={{ background: "transparent" }}
+                    label={<span><CalendarMonthIcon style={{ marginRight: "0.3rem", verticalAlign: "middle", color: "orange" }} />{e.eventDate}</span>}
+                  />
+                </Stack>
+              </Typography>
+            </Box>
+          </Box>
+          <Typography variant="body3" sx={{ color: "darkgray" }}>
+            {e.eventDescription}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </div>
+
+    {/* Back of the card */}
+    <div style={{
+      backfaceVisibility: 'hidden',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'white',
+      padding: '1rem',
+      transform: 'rotateY(180deg)', // Make the back of the card rotate
+    }}>
+      <Typography variant="h6">More Info</Typography>
+    </div>
+  </div>
+
+  {/* Card Actions (Buttons) */}
+  <CardActions sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    position: 'absolute', // Position the actions at the bottom
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: '0.5rem', // Add some space for buttons
+    background: 'rgba(0, 0, 0, 0.5)', // Optional, for visibility
+  }}>
+    <Button size="small" sx={{ color: "gray" }} onClick={() => { accessToken ? navigate(`/events/${e.eventId}`) : console.log("Access key missing, access denied") }}>
+      <InfoIcon />
+    </Button>
+
+    {user?.resource_access?.["react-client"]?.roles[0] === "ADMIN" && (
+      <Box sx={{ background: "orange", borderRadius: "2rem", color: "black" }}>
+        <Button size="small" color="default" onClick={() => { handleOpen3(); itemToEdit(e); console.log("ovoje e", e) }}>
+          <EditNoteIcon />
+        </Button>
+        <Button size="small" color="default" onClick={() => {
+          setSelectedEvent(e.eventId);
+          handleOpen2();
+        }}>
+          <DeleteIcon />
+        </Button>
+      </Box>
+    )}
+  </CardActions>
+</Card>

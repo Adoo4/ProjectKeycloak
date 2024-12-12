@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 
 
 
+
 const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, setLoginFailed,user, setUser, isAuthenticated, setIsAuthenticated }) => {
   const [scrolled, setScrolled] = useState(false);
  
@@ -42,7 +43,36 @@ const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, se
     };
   }, []);
 
-  useEffect(() => {
+   useEffect(() => {                                             
+
+   const authenticate = async () => {
+      try {
+        const authenticated = await keycloak.init({
+          pkceMethod: "S256", onLoad: "check-sso" //ovdje promjena
+        });
+  
+        if (authenticated) {
+          const token = keycloak.token;
+          if (token && typeof token === "string") {
+            if (accessToken !== token) {
+              setAccessToken(token); // Update state only if token has changed
+            }
+            const decoded = jwtDecode(token);
+            if (user !== decoded) {
+              setUser(decoded); // Update user only if it's different
+            }
+            setIsAuthenticated(true);
+            setRefreshToken(keycloak.refreshToken);
+          }
+        } else {
+          setLoginFailed(true);
+        }
+      } catch (error) {
+        console.error("Keycloak initialization failed", error);
+      }
+    };
+  
+    authenticate();
     
   
     const intervalId = setInterval(async () => {
@@ -61,7 +91,7 @@ const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, se
     }, 1000 * 60); // 1 minute
   
     return () => clearInterval(intervalId);
-  }, [accessToken, user]); // Add state as dependencies to limit updates
+  }, [accessToken, user]); // Add state as dependencies to limit updates 
   
 
 
@@ -85,9 +115,11 @@ const Header = ({ accessToken, setAccessToken, refreshToken, setRefreshToken, se
 <Box sx={{ flexGrow: 1 }}>
   <AppBar
     position="fixed"
+    
     sx={{
       backgroundColor: scrolled ? "rgba(0,0,0,0.5)" : "transparent",
       transition: "background-color 0.3s ease",
+      
     }}
     elevation={0}
   >
