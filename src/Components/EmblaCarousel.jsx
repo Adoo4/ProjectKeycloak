@@ -14,25 +14,31 @@ import CelebrationIcon from '@mui/icons-material/Celebration';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import LanguageIcon from '@mui/icons-material/Language';
 import { Divider } from '@mui/material';
+import { useMediaQuery } from "@mui/material";
 
 export function EmblaCarousel() {
     const autoplayOptions = Autoplay({ delay: 3000, stopOnInteraction: false });
   const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()])
+  const isXsScreen = useMediaQuery("(max-width:600px)");
+
+  const containerHeight = isXsScreen ? "65lvh" : "80lvh";
+
+  
 
   return (
     <Box sx={{ position: 'relative' }}>
     {/* Embla Carousel */}
     <div className="embla" ref={emblaRef}>
-      <div className="embla__container">
-        <div className="embla__slide">
+      <div className="embla__container" style={{ height: containerHeight }}>
+        <div className="embla__slide" >
           <img
-            src="https://i.postimg.cc/3wXch4XN/portrait-senior-man-with-camera-device-world-photography-day-celebration.jpg"
+            src="https://i.postimg.cc/DvfFZ3WH/person-suffering-from-technology-addiction-cybersickness.jpg"
             alt=""
           />
         </div>
         <div className="embla__slide">
           <img
-            src="https://i.postimg.cc/rsmn5fvR/businessmen-handshake-1.jpg"
+            src="https://i.postimg.cc/WtcNKtw8/cyberpunk-warrior-woman-portrait.jpg"
             alt=""
           />
         </div>
@@ -44,7 +50,13 @@ export function EmblaCarousel() {
         </div>
         <div className="embla__slide">
           <img
-            src="https://i.postimg.cc/6QWVJ3tL/view-black-white-person-attending-theatre.jpg"
+            src="https://i.postimg.cc/LsS0cJv0/freepik-expand-13980.png"
+            alt=""
+          />
+        </div>
+        <div className="embla__slide">
+          <img
+            src="https://i.postimg.cc/J0wLBrRw/freepik-expand-16547.png"
             alt=""
           />
         </div>

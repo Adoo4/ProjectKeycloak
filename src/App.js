@@ -21,7 +21,7 @@ function App() {
   const [loading, setLoading] = useState(!sessionStorage.getItem('hasLoadedBefore'));
   const [progress, setProgress] = useState(10);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const imageUrl = 'https://i.postimg.cc/hjnXtfPJ/Towers.png';
+  const imageUrl = 'https://i.postimg.cc/hPy52XNz/close-up-person-prepared-traveling.jpg';
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const[accessToken, setAccessToken] = useState(null);
   const[refreshToken, setRefreshToken] = useState("");
@@ -202,7 +202,7 @@ function App() {
             />
           </Routes>
         </AnimatePresence>
-        <Footer />
+       
       </BrowserRouter>
       )}
     </div>
